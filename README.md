@@ -1,7 +1,7 @@
 # manyame
-Dead simple cli xdcc anime download script. Relies on xdccget. Basically, it's just automation tool for xdccget.
+Dead simple cli xdcc anime download script. Uses xdccget. Basically, it's just automation tool for simplifying anime watching.
 
-You can watch the usage video here: https://streamable.com/bis2xq
+You can watch the usage video here: https://streamable.com/0yq0m1
 
 ## Linux:
 Dependencies: awk, bash, curl, **fzf**, grep, head, **jq**, sed, sort, uniq, **xdccget**
