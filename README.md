@@ -1,10 +1,12 @@
 # manyame
-Dead simple cli xdcc anime download script. Uses xdccget. Basically, it's just automation tool for simplifying anime watching.
+A dead simple cli tool to search and download anime from [xdcc](https://en.wikipedia.org/wiki/XDCC) servers.
+Uses [xdccget](https://github.com/Fantastic-Dave/xdccget).
 
-You can watch the usage video here: https://streamable.com/0yq0m1
+Watch a video demonstration [here](https://streamable.com/0yq0m1).
 
 ## Linux:
-Dependencies: awk, bash, curl, **fzf**, grep, head, **jq**, sed, sort, uniq, **xdccget**. Make sure that xdccget is executable and in $PATH
+Install the following **dependencies**: awk, bash, curl, **fzf**, grep, head, **jq**, sed, sort, uniq, **xdccget**.
+Make sure that xdccget is executable and is added to `$PATH`.
 
 ## Windows:
 https://github.com/Ajatt-Tools/manyame/releases/tag/1.0.0
