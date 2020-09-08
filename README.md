@@ -4,7 +4,7 @@ Dead simple cli xdcc anime download script. Uses xdccget. Basically, it's just a
 You can watch the usage video here: https://streamable.com/0yq0m1
 
 ## Linux:
-Dependencies: awk, bash, curl, **fzf**, grep, head, **jq**, sed, sort, uniq, **xdccget**
+Dependencies: awk, bash, curl, **fzf**, grep, head, **jq**, sed, sort, uniq, **xdccget**. Make sure that xdccget is executable and in $PATH
 
 ## Windows:
 https://github.com/Ajatt-Tools/manyame/releases/tag/1.0.0
