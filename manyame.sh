@@ -20,5 +20,5 @@ else
 	while IFS= read -r line ; do
 		pacname=$(echo "$animelist" | grep -B1 "$line" | head -n1 | grep -o -E '[0-9]+')
 		xdccget -d Downloads -q "irc.rizon.net" "#nibl" "$botname xdcc send #$pacname"
-	done < "$choose" 
+	done <<< "$choose" 
 fi
