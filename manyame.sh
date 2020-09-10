@@ -17,8 +17,8 @@ if uname | grep -q "Windows" ; then
 		echo "xdccget.exe --dont-confirm-offsets -d Downloads -i \"irc.rizon.net\" \"#nibl\" \"$botname xdcc send #$pacname\"" >> "$2"
 	done < "$1" 
 else
-	while IFS= read -r line ; do
+	echo "$choose" | while IFS= read -r line ; do
 		pacname=$(echo "$animelist" | grep -B1 "$line" | head -n1 | grep -o -E '[0-9]+')
 		xdccget -d Downloads -q "irc.rizon.net" "#nibl" "$botname xdcc send #$pacname"
-	done <<< "$choose" 
+	done
 fi
