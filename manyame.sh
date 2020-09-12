@@ -6,7 +6,7 @@ echo -n "Enter Episode: "
 read episode
 chmonimeperc=$(echo "$title" | sed 's/ /%20/g')
 #botlist=$(curl -s "https://api.nibl.co.uk/nibl/bots" | jq)
-animelist=$(curl -s "https://api.nibl.co.uk/nibl/search?query=$chmonimeperc&episodeNumber=$episode" | jq)
+animelist=$(curl -s "https://api.nibl.co.uk/nibl/search?query=$chmonimeperc&episodeNumber=$episode" | jq '.')
 choose=$(echo "$animelist" | jq -r '.content[] | .size + " | " + .name' | sort | uniq | fzf -m --reverse | sed 's/\[/./g;s/\]/./g')
 choose=$(echo "$choose" | sed 's/^.*| //')
 if uname | grep -q "Windows" ; then
@@ -22,9 +22,9 @@ if uname | grep -q "Windows" ; then
         echo "xdccget.exe --dont-confirm-offsets -d Downloads -q \"irc.rizon.net\" \"#nibl\" \"$botname xdcc send #$pacname\"" >> "$2"
     done < "$1" 
 else
-    while IFS= read -r line ; do
+    echo "$choose" | while IFS= read -r line ; do
         pacname=$(echo "$animelist" | grep -B1 "$line" | head -n1 | grep -o -E '[0-9]+')
         xdccget -d Downloads -q "irc.rizon.net" "#nibl" "$botname xdcc send #$pacname"
-    done < "$choose" 
+    done
 fi
 
