@@ -1,3 +1,4 @@
+@echo off
 setlocal EnableExtensions
 :uniqLoop
 set "uniqueFileName=%tmp%\rand%RANDOM%.tmp"
