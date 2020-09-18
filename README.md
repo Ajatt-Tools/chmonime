@@ -9,7 +9,7 @@ Install the following **dependencies**: awk, bash, curl, **fzf**, grep, head, **
 Make sure that xdccget is executable and is added to `$PATH`.
 
 ## Windows:
-https://github.com/Ajatt-Tools/manyame/releases/tag/1.2.1
+https://github.com/Ajatt-Tools/manyame/releases/tag/1.2.3
 
 Download from releases or get packages from Linux dependencies and build xdccget by yourself. **Run from bat file, just click manyame.bat or create shortcut for it**
 
