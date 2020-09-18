@@ -1,5 +1,8 @@
 @echo off
 setlocal EnableExtensions
+if exist "manyame.sh" goto :check
+curl -LO https://raw.githubusercontent.com/whew/manyame/master/manyame.sh
+:check
 for /f "tokens=* USEBACKQ" %%a in (
 `for %%I in ^(manyame.sh^) do @echo %%~zI`
 ) do (
