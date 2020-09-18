@@ -41,7 +41,7 @@ if uname | grep -i -q "Windows\|Mingw\|Cygwin" ; then
         pacname=$(echo "$animelist" | grep -B1 "$anime" | head -n1 | grep -o -E '[0-9]+')
 	dirname=$(echo "$line" | grep "\[.*\]" | grep "\-" | sed -e 's/\[[^][]*\]//g;s/^ //' | awk -F"-" '{print $NR}')
 	foldir=$(echo "$folder$dirname" | sed 's/^ //;s/ $//')
-	echo "mkdir \"$foldir\"" >> "$2"
+	echo "if not exist \"$foldir\" mkdir \"$foldir\"" >> "$2"
         echo "xdccget.exe --dont-confirm-offsets -d \"$foldir\" -q \"irc.rizon.net\" \"#nibl\" \"$botname xdcc send #$pacname\"" >> "$2"
     done < "$1"
 else
@@ -51,7 +51,7 @@ else
 	dirname=$(echo "$line" | grep "\[.*\]" | grep "\-" | sed -e 's/\[[^][]*\]//g;s/^ //' | awk -F"-" '{print $NR}')
 	foldir=$(echo "$folder$dirname" | sed 's/^ //;s/ $//')
 	mkdir -p "$foldir"
-        xdccget -d "$foldir" -q "irc.rizon.net" "#nibl" "$botname xdcc send #$pacname"
+        xdccget -d $foldir -q "irc.rizon.net" "#nibl" "$botname xdcc send #$pacname"
     done
 fi
 
