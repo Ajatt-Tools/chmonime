@@ -1,9 +1,21 @@
 #!/bin/bash
-mkdir -p Downloads
+config="manyame.conf"
+if test -f "$config"; then
+	echo -n ""
+else
+	echo "Simple Manyame setup"
+	echo "Enter your preferable folder for download anime."
+	echo 'e.g. C:\Users\asakura\Downloads\ or /home/asakura/Anime/'
+	echo "Don't forget slash at the end!"
+	echo -n ''
+	read -r animefolder
+	echo "f $animefolder" >> manyame.conf
+fi
+folder=$(cat manyame.conf | grep ^f | awk '{$1=""; print $0}')
 echo -n "Enter Title: "
-read title
+read -r title
 echo -n "Enter Episode: "
-read episode
+read -r episode
 chmonimeperc=$(echo "$title" | sed 's/ /%20/g')
 #botlist=$(curl -s "https://api.nibl.co.uk/nibl/bots" | jq)
 animelist=$(curl -s "https://api.nibl.co.uk/nibl/search?query=$chmonimeperc&episodeNumber=$episode" | jq '.')
@@ -19,12 +31,12 @@ botname=$(curl -s "https://api.nibl.co.uk/nibl/bots" | jq -r '.content[] | "\(.i
 if uname | grep -i -q "Windows\|Mingw\|Cygwin" ; then
     while IFS= read -r line ; do
         pacname=$(echo "$animelist" | grep -B1 "$line" | head -n1 | grep -o -E '[0-9]+')
-        echo "xdccget.exe --dont-confirm-offsets -d Downloads -q \"irc.rizon.net\" \"#nibl\" \"$botname xdcc send #$pacname\"" >> "$2"
+        echo "xdccget.exe --dont-confirm-offsets -d $folder -q \"irc.rizon.net\" \"#nibl\" \"$botname xdcc send #$pacname\"" >> "$2"
     done < "$1"
 else
     echo "$choose" | while IFS= read -r line ; do
         pacname=$(echo "$animelist" | grep -B1 "$line" | head -n1 | grep -o -E '[0-9]+')
-        xdccget -d Downloads -q "irc.rizon.net" "#nibl" "$botname xdcc send #$pacname"
+        xdccget -d $folder -q "irc.rizon.net" "#nibl" "$botname xdcc send #$pacname"
     done
 fi
 
