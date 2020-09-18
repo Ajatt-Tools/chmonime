@@ -51,7 +51,7 @@ else
 	dirname=$(echo "$line" | grep "\[.*\]" | grep "\-" | sed -e 's/\[[^][]*\]//g;s/^ //' | awk -F"-" '{print $NR}')
 	foldir=$(echo "$folder$dirname" | sed 's/^ //;s/ $//')
 	mkdir -p "$foldir"
-        xdccget -d $foldir -q "irc.rizon.net" "#nibl" "$botname xdcc send #$pacname"
+        xdccget -d "$foldir" -q "irc.rizon.net" "#nibl" "$botname xdcc send #$pacname"
     done
 fi
 
