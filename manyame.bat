@@ -1,7 +1,5 @@
 @echo off
 setlocal EnableExtensions
-for %%I in (manyame.sh) do @echo %%~zI
-curl -sI https://raw.githubusercontent.com/whew/manyame/master/manyame.sh  | awk "/Content-Length/ { print $2 }"
 for /f "tokens=* USEBACKQ" %%a in (
 `for %%I in ^(manyame.sh^) do @echo %%~zI`
 ) do (
