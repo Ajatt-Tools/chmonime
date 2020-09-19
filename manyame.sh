@@ -30,6 +30,8 @@ botlist=$(curl -s "https://api.nibl.co.uk/nibl/bots" | jq -r '.content[] | "\(.i
 animelist=$(curl -s "https://api.nibl.co.uk/nibl/search?query=$chmonimeperc&episodeNumber=$episode" | jq '.')
 choose=$(echo "$animelist" | jq -r '.content[] | .size + " | " + .name' | sort | uniq | fzf -m --reverse)
 choose=$(echo "$choose" | sed 's/^.*| //')
+nosquare=$(echo "$choose" | head -n1 | sed 's/\[[^]]*\]//g;s/_/ /g;s/\.[^.]*$//;s/^ *//g;s/ *$//;s/ /%20/g')
+dirname=$(curl -s "https://kitsu.io/api/edge/anime?filter\[text\]=$nosquare&page\[limit\]=1" | ./jq -r .data[].attributes.canonicalTitle)
 if uname | grep -i -q "Windows\|Mingw\|Cygwin" ; then
     echo "$choose" > "$1"
 else
@@ -39,8 +41,6 @@ if uname | grep -i -q "Windows\|Mingw\|Cygwin" ; then
     while IFS= read -r line ; do
         anime=$(echo "$line" |  sed 's/\[/\\\[/g;s/\]/\\\]/g')
 #       nosquare=$(echo "$line" | sed 's/\[[^]]*\]//g;s/([^)]*)//g;s/\.[^.]*$//;s/^ *//g;s/ *$//;s/ /%20/g')
-        nosquare=$(echo "$line" | sed 's/\[[^]]*\]//g;s/_/ /g;s/\.[^.]*$//;s/^ *//g;s/ *$//;s/ /%20/g')
-        dirname=$(curl -s "https://kitsu.io/api/edge/anime?filter\[text\]=$nosquare&page\[limit\]=1" | ./jq -r .data[].attributes.canonicalTitle)
         botnumber=$(echo "$animelist" | grep -B2 "$anime" | head -n1 | grep -o -E '[0-9]+')
         botname=$(echo "$botlist" | grep "^$botnumber" | awk '{print $2}' | head -n1)
         pacname=$(echo "$animelist" | grep -B1 "$anime" | head -n1 | grep -o -E '[0-9]+')
@@ -52,8 +52,6 @@ else
     echo "$choose" | while IFS= read -r line ; do
         anime=$(echo "$line" | sed 's/\[/\\\[/g;s/\]/\\\]/g')
 #       nosquare=$(echo "$line" | sed 's/\[[^]]*\]//g;s/([^)]*)//g;s/\.[^.]*$//;s/^ *//g;s/ *$//;s/ /%20/g')
-        nosquare=$(echo "$line" | sed 's/\[[^]]*\]//g;s/_/ /g;s/\.[^.]*$//;s/^ *//g;s/ *$//;s/ /%20/g')
-        dirname=$(curl -s "https://kitsu.io/api/edge/anime?filter\[text\]=$nosquare&page\[limit\]=1" | ./jq -r .data[].attributes.canonicalTitle)
         botnumber=$(echo "$animelist" | grep -B2 "$anime" | head -n1 | grep -o -E '[0-9]+')
         botname=$(echo "$botlist" | grep "^$botnumber" | awk '{print $2}' | head -n1)
         pacname=$(echo "$animelist" | grep -B1 "$anime" | head -n1 | grep -o -E '[0-9]+')
