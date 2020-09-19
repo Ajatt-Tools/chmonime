@@ -33,7 +33,7 @@ if uname | grep -i -q "Windows\|Mingw\|Cygwin" ; then
 else
     true
 fi
-dirname=$(curl "https://kitsu.io/api/edge/anime?filter\[text\]=$chmonimeperc&page\[limit\]=1" | ./jq -r .data[].attributes.canonicalTitle)
+dirname=$(curl -s "https://kitsu.io/api/edge/anime?filter\[text\]=$chmonimeperc&page\[limit\]=1" | ./jq -r .data[].attributes.canonicalTitle)
 if uname | grep -i -q "Windows\|Mingw\|Cygwin" ; then
     while IFS= read -r line ; do
         anime=$(echo "$line" |  sed 's/\[/\\\[/g;s/\]/\\\]/g')
