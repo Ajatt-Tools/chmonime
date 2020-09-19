@@ -3,7 +3,7 @@ A dead simple cli tool to search and download anime from [xdcc](https://en.wikip
 Uses [xdccget](https://github.com/Fantastic-Dave/xdccget).
 
 Features:
-* batch downloading
+* batch downloading (press **tab** to check episodes)
 * download anime into different folders by title
 * autoupdate
 * you can specify settings in config file
