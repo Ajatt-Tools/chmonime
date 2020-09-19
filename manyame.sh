@@ -1,5 +1,5 @@
-#!/bin/bash
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+#!/usr/bin/env sh
+DIR="$( cd "$( dirname "${BASH_SOURCE}" )" >/dev/null 2>&1 && pwd )"
 PATH="$PATH;$DIR"
 config="manyame.conf"
 if test -f "$config"; then
