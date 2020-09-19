@@ -15,9 +15,9 @@ else
     echo -n ''
     read -r animefolder
     if echo "$animefolder" | grep -v '\\$\|/$' ; then
-        echo "${YE}Please, don't forget slash at the end!${NC}\n"
+        printf "${YE}Please, don't forget slash at the end!${NC}\n"
         echo ""
-        echo "${YE}Press enter to exit${NC}\n"
+        printf "${YE}Press enter to exit${NC}\n"
         read key
         exit
     fi
