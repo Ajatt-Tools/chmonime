@@ -5,7 +5,7 @@ if test -f "$config"; then
 else
     echo "Manyame config setup"
     echo "Enter your preferable folder for download anime."
-    echo "e.g. C:\\\Users\\\asakura\\\Downloads\\\ or /home/asakura/Anime/"
+    echo "e.g. C:\Users\asakura\Downloads\ or /home/asakura/Anime/"
     echo "Don't forget slash at the end!"
     echo -n ''
     read -r animefolder
