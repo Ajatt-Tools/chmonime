@@ -1,32 +1,27 @@
 #!/bin/bash
-RED='\033[0;31m'
-GRE='\033[0;32m'       
-YE='\033[0;33m'       
-GRAY='\033[1;30m'       
-NC='\033[0m'
 config="manyame.conf"
 if test -f "$config"; then
     echo -n ""
 else
-    printf "${RED}Manyame config setup${NC}\n"
-    printf "${YE}Enter your preferable folder for download anime.${NC}\n"
-    printf "${YE}e.g. C:\\\Users\\\asakura\\\Downloads\\\ or /home/asakura/Anime/${NC}\n"
-    printf "${YE}Don't forget slash at the end!${NC}\n"
+    echo "Manyame config setup"
+    echo "Enter your preferable folder for download anime."
+    echo "e.g. C:\\\Users\\\asakura\\\Downloads\\\ or /home/asakura/Anime/"
+    echo "Don't forget slash at the end!"
     echo -n ''
     read -r animefolder
     if echo "$animefolder" | grep -v '\\$\|/$' ; then
-        printf "${YE}Please, don't forget slash at the end!${NC}\n"
+        echo "Please, don't forget slash at the end!"
         echo ""
-        printf "${YE}Press enter to exit${NC}\n"
+        echo "Press enter to exit"
         read key
         exit
     fi
     echo "f $animefolder" >> manyame.conf
 fi
 folder=$(cat manyame.conf | grep ^f | awk '{$1=""; print $0}')
-printf "${GRE}Enter Title: ${NC}"
+echo -n "Enter Title: "
 read -r title
-printf "${GRE}Enter Episode: $(NC}"
+echo -n "Enter Episode: "
 read -r episode
 chmonimeperc=$(echo "$title" | sed 's/ /%20/g')
 botlist=$(curl -s "https://api.nibl.co.uk/nibl/bots" | jq -r '.content[] | "\(.id) \(.name)"')
