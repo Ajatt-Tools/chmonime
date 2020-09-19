@@ -8,7 +8,8 @@ config="manyame.conf"
 if test -f "$config"; then
     echo -n ""
 else
-    printf "${RED}Manyame config setup${NC}\n"
+    echo -e -n "${RED}"
+    echo "Manyame config setup"
     echo "Enter your preferable folder for download anime."
     echo 'e.g. C:\Users\asakura\Downloads\ or /home/asakura/Anime/'
     echo "Don't forget slash at the end!"
