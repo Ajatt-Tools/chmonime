@@ -36,7 +36,8 @@ fi
 if uname | grep -i -q "Windows\|Mingw\|Cygwin" ; then
     while IFS= read -r line ; do
         anime=$(echo "$line" |  sed 's/\[/\\\[/g;s/\]/\\\]/g')
-        nosquare=$(echo "$anime" | sed 's/\[[^]]*\]//g;s/([^)]*)//g;s/\.[^.]*$//;s/^ *//g;s/ *$//;s/ /%20/g')
+#       nosquare=$(echo "$line" | sed 's/\[[^]]*\]//g;s/([^)]*)//g;s/\.[^.]*$//;s/^ *//g;s/ *$//;s/ /%20/g')
+        nosquare=$(echo "$line" | sed 's/\[[^]]*\]//g;s/\.[^.]*$//;s/^ *//g;s/ *$//;s/ /%20/g')
         dirname=$(curl -s "https://kitsu.io/api/edge/anime?filter\[text\]=$nosquare&page\[limit\]=1" | ./jq -r .data[].attributes.canonicalTitle)
         botnumber=$(echo "$animelist" | grep -B2 "$anime" | head -n1 | grep -o -E '[0-9]+')
         botname=$(echo "$botlist" | grep "^$botnumber" | awk '{print $2}' | head -n1)
@@ -48,7 +49,8 @@ if uname | grep -i -q "Windows\|Mingw\|Cygwin" ; then
 else
     echo "$choose" | while IFS= read -r line ; do
         anime=$(echo "$line" | sed 's/\[/\\\[/g;s/\]/\\\]/g')
-        nosquare=$(echo "$anime" | sed 's/\[[^]]*\]//g;s/([^)]*)//g;s/\.[^.]*$//;s/^ *//g;s/ *$//;s/ /%20/g')
+#       nosquare=$(echo "$line" | sed 's/\[[^]]*\]//g;s/([^)]*)//g;s/\.[^.]*$//;s/^ *//g;s/ *$//;s/ /%20/g')
+        nosquare=$(echo "$line" | sed 's/\[[^]]*\]//g;s/\.[^.]*$//;s/^ *//g;s/ *$//;s/ /%20/g')
         dirname=$(curl -s "https://kitsu.io/api/edge/anime?filter\[text\]=$nosquare&page\[limit\]=1" | ./jq -r .data[].attributes.canonicalTitle)
         botnumber=$(echo "$animelist" | grep -B2 "$anime" | head -n1 | grep -o -E '[0-9]+')
         botname=$(echo "$botlist" | grep "^$botnumber" | awk '{print $2}' | head -n1)
