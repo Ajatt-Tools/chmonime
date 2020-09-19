@@ -9,24 +9,24 @@ if test -f "$config"; then
     echo -n ""
 else
     printf "${RED}Manyame config setup${NC}\n"
-    echo "Enter your preferable folder for download anime."
-    echo 'e.g. C:\Users\asakura\Downloads\ or /home/asakura/Anime/'
-    echo "Don't forget slash at the end!"
+    printf "${YE}Enter your preferable folder for download anime.${NC}\n"
+    printf "${YE}e.g. C:\\\Users\\\asakura\\\Downloads\\\ or /home/asakura/Anime/${NC}\n"
+    printf "${YE}Don't forget slash at the end!${NC}\n"
     echo -n ''
     read -r animefolder
     if echo "$animefolder" | grep -v '\\$\|/$' ; then
-        echo "Please, don't forget slash at the end!"
+        echo "${YE}Please, don't forget slash at the end!${NC}\n"
         echo ""
-        echo "Press enter to exit"
+        echo "${YE}Press enter to exit${NC}\n"
         read key
         exit
     fi
     echo "f $animefolder" >> manyame.conf
 fi
 folder=$(cat manyame.conf | grep ^f | awk '{$1=""; print $0}')
-echo -n "Enter Title: "
+printf "${GRE}Enter Title: ${NC}"
 read -r title
-echo -n "Enter Episode: "
+printf "${GRE}Enter Episode: $(NC}"
 read -r episode
 chmonimeperc=$(echo "$title" | sed 's/ /%20/g')
 botlist=$(curl -s "https://api.nibl.co.uk/nibl/bots" | jq -r '.content[] | "\(.id) \(.name)"')
