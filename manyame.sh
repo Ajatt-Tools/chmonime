@@ -31,6 +31,7 @@ animelist=$(curl -s "https://api.nibl.co.uk/nibl/search?query=$chmonimeperc&epis
 choose=$(echo "$animelist" | jq -r '.content[] | .size + " | " + .name' | sort | uniq | fzf -m --reverse)
 choose=$(echo "$choose" | sed 's/^.*| //')
 nosquare=$(echo "$choose" | head -n1 | sed 's/\[[^]]*\]//g;s/_/ /g;s/\.[^.]*$//;s/^ *//g;s/ *$//;s/ /%20/g')
+nosquare=$(echo "$choose" | sed -e 's/_/ /g;s/([^()]*)//g;s/[0-9]//g;s/\[[^]]*\]//g;s/\.[^.]*$//' | grep -oh "\w*" | tr ' ' '\n' | sort -nf | uniq -ci | sort -nr | awk '{array[$2]=$1; sum+=$1} END { for (i in array) printf "%-20s %-15d %6.2f%%\n", i, array[i], array[i]/sum*100}' | awk '$3>30 {print $1}' | tr '\n' ' ' | sed 's/ $//;s/ /%20/g')
 dirname=$(curl -s "https://kitsu.io/api/edge/anime?filter\[text\]=$nosquare&page\[limit\]=1" | ./jq -r .data[].attributes.canonicalTitle)
 if uname | grep -i -q "Windows\|Mingw\|Cygwin" ; then
     echo "$choose" > "$1"
