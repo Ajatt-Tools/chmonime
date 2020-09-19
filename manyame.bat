@@ -9,7 +9,7 @@ for /f "tokens=* USEBACKQ" %%a in (
 set local=%%a
 )
 FOR /F "tokens=* USEBACKQ" %%F IN (
-`curl -sI https://raw.githubusercontent.com/whew/manyame/master/manyame.sh  ^| awk "/Content-Length/ { print $2 }"`) DO (
+`curl -sI https://raw.githubusercontent.com/whew/manyame/master/manyame.sh  ^| busybox awk "/Content-Length/ { print $2 }"`) DO (
 SET remote=%%F
 )
 IF %remote% EQU %local% (GOTO uniqLoop) ELSE (GOTO dl)
@@ -23,7 +23,7 @@ if exist "%uniqueFileName%" goto :uniqLoop
 set "uniqueBatName=%tmp%\bat%RANDOM%.bat"
 if exist "%uniqueBatName%" goto :uniqBat
 echo cd /d %cd% > %uniqueBatName%
-bash manyame.sh "%uniqueFileName%" "%uniqueBatName%" %*
+busybox bash manyame.sh "%uniqueFileName%" "%uniqueBatName%" %*
 call %uniqueBatName%
 echo Success! Press enter to exit...
 pause >nul
