@@ -1,4 +1,6 @@
 #!/bin/bash
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+PATH="$PATH;$DIR"
 config="manyame.conf"
 if test -f "$config"; then
     echo -n ""
@@ -18,7 +20,7 @@ else
     fi
     echo "f $animefolder" >> manyame.conf
 fi
-folder=$(cat manyame.conf | grep ^f | awk '{$1=""; print $0}')
+folder=$(grep "^f" manyame.conf | awk '{$1=""; print $0}')
 echo -n "Enter Title: "
 read -r title
 echo -n "Enter Episode: "
