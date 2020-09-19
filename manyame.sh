@@ -1,9 +1,14 @@
 #!/bin/bash
+RED='\033[0;31m'
+GRE='\033[0;32m'       
+YE='\033[0;33m'       
+GRAY='\033[1;30m'       
+NC='\033[0m'
 config="manyame.conf"
 if test -f "$config"; then
     echo -n ""
 else
-    echo "Simple Manyame setup"
+    printf "${RED}Manyame config setup${NC}\n"
     echo "Enter your preferable folder for download anime."
     echo 'e.g. C:\Users\asakura\Downloads\ or /home/asakura/Anime/'
     echo "Don't forget slash at the end!"
