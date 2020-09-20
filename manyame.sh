@@ -4,6 +4,7 @@ if uname | grep -i -q "Windows\|Mingw\|Cygwin" ; then
     PATH="$PATH;$DIR"
 else
     PATH="$PATH:$DIR"
+    tempsh=$(mktemp)
 fi
 config="manyame.conf"
 if test -f "$config"; then
@@ -36,7 +37,7 @@ choose=$(echo "$animelist" | jq -r '.content[] | .size + " | " + .name' | sort |
 choose=$(echo "$choose" | sed 's/^.*| //')
 nosquare=$(echo "$choose"  | sed 's/_/ /g;s/\(.*\)- .*/\1/;s/[0-9]//g;s/\[[^]]*\]//g;s/[0-9]//g;s/([^)]*)//g;s/\.[^.]*$//;s/^ *//g;s/ *$//' | sort -nf | uniq -ci | sort -nr | head -n1 |awk '{ print substr($0, index($0,$2)) }' | sed 's/ /%20/g')
 #nosquare=$(echo "$choose" | sed -e 's/_/ /g;s/([^()]*)//g;s/[0-9]//g;s/\[[^]]*\]//g;s/\.[^.]*$//' | grep -oh "\w*" | tr ' ' '\n' | sort -nf | uniq -ci | sort -nr | awk '{array[$2]=$1; sum+=$1} END { for (i in array) printf "%-20s %-15d %6.2f\n", i, array[i], array[i]/sum*100}' | awk '$3>20 {print $1}' | tr '\n' ' ' | sed 's/ $//;s/ /%20/g')
-dirname=$(curl -s "https://api.jikan.moe/v3/search/anime?q=$nosquare&page=1&limit=1" | ./jq -r .results[].title)
+dirname=$(curl -s "https://api.jikan.moe/v3/search/anime?q=$nosquare&page=1&limit=1" | jq -r .results[].title)
 if uname | grep -i -q "Windows\|Mingw\|Cygwin" ; then
     echo "$choose" > "$1"
 else
@@ -59,8 +60,8 @@ else
         botname=$(echo "$botlist" | grep "^$botnumber" | awk '{print $2}' | head -n1)
         pacname=$(echo "$animelist" | grep -B1 "$anime" | head -n1 | grep -o -E '[0-9]+')
         foldir=$(echo "$folder$dirname" | sed 's/^ //;s/ $//;s/\/$//')
-        mkdir -p "$foldir"
-        xdccget --dont-confirm-offsets -d "$foldir" -q "irc.rizon.net" "#nibl" "$botname xdcc send #$pacname"
+        echo "mkdir -p \"$foldir\"" >> "$tempsh"
+        echo "xdccget --dont-confirm-offsets -d \"$foldir\" -q \"irc.rizon.net\" \"#nibl\" \"$botname xdcc send #$pacname\"" >> "$tempsh"
     done
+    sh "$tempsh"
 fi
-
