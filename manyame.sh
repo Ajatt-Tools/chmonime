@@ -1,6 +1,10 @@
 #!/usr/bin/env sh
 DIR="$( cd "$( dirname "${BASH_SOURCE}" )" >/dev/null 2>&1 && pwd )"
-PATH="$PATH;$DIR"
+if uname | grep -i -q "Windows\|Mingw\|Cygwin" ; then
+    PATH="$PATH;$DIR"
+else
+    PATH="$PATH:$DIR"
+fi
 config="manyame.conf"
 if test -f "$config"; then
     echo -n ""
