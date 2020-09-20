@@ -60,7 +60,7 @@ else
         pacname=$(echo "$animelist" | grep -B1 "$anime" | head -n1 | grep -o -E '[0-9]+')
         foldir=$(echo "$folder$dirname" | sed 's/^ //;s/ $//;s/\/$//')
         mkdir -p "$foldir"
-        xdccget -d "$foldir" -q "irc.rizon.net" "#nibl" "$botname xdcc send #$pacname"
+        xdccget --dont-confirm-offsets -d "$foldir" -q "irc.rizon.net" "#nibl" "$botname xdcc send #$pacname"
     done
 fi
 
