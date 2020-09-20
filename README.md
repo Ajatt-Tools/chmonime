@@ -2,14 +2,14 @@
 A dead simple cli tool to search and download anime from [xdcc](https://en.wikipedia.org/wiki/XDCC) servers.
 Uses [xdccget](https://github.com/Fantastic-Dave/xdccget).
 
+Watch a video demonstration [here](https://streamable.com/0yq0m1). And [here](https://streamable.com/b0tgcj). And [here](https://streamable.com/llpho8)
+
 Features:
 * batch downloading (press **tab** to check episodes)
 * download anime into different folders by title
 * autoupdate
 * you can specify settings in config file
 * and more
-
-Watch a video demonstration [here](https://streamable.com/0yq0m1). And [here](https://streamable.com/b0tgcj).
 
 ## Linux:
 Install the following **dependencies**: awk, bash, curl, **fzf**, grep, head, **jq**, sed, sort, uniq, **xdccget**.
