@@ -14,7 +14,9 @@ Features:
 
 ### config
 `manyame.conf` in main folder.
+
 `f` is for download folder
+
 `api` is for anime api: `kitsu` or `mal`
 
 example:
