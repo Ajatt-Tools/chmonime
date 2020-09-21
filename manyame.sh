@@ -36,7 +36,7 @@ animelist=$(curl -s "https://api.nibl.co.uk/nibl/search?query=$chmonimeperc&epis
 if test -f "$episode"; then
     choose=$(echo "$animelist" | jq -r '.content[] | .size + " | " + .name' | sort | uniq | awk '{printf "%s %08.2f\t%s\n", index("KMG", substr($1, length($1))), substr($1, 0, length($1)-1), $0}' | sort | cut -f2,3 | fzf -m --reverse --no-sort --exact)
 else
-    choose=$(echo "$animelist" | jq -r '.content[] | .size + " | " + .name' | sort | uniq)
+    choose=$(echo "$animelist" | jq -r '.content[] | .size + " | " + .name' | sort | uniq  | fzf -m --reverse --no-sort --exact)
 fi
 choose=$(echo "$choose" | sed 's/^.*| //')
 nosquare=$(echo "$choose"  | sed 's/_/ /g;s/\(.*\)- .*/\1/;s/[0-9]//g;s/\[[^]]*\]//g;s/[0-9]//g;s/([^)]*)//g;s/\.[^.]*$//;s/^ *//g;s/ *$//' | sort -nf | uniq -ci | sort -nr | head -n1 |awk '{ print substr($0, index($0,$2)) }' | sed 's/ /%20/g')
