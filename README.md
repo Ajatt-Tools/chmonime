@@ -12,6 +12,17 @@ Features:
 * you can specify settings in config file
 * and more
 
+### config
+`manyame.conf` in main folder.
+`f` is for download folder
+`api` is for anime api: `kitsu` or `mal`
+
+example:
+```
+f D:\Anime\
+api mal
+```
+
 ## Linux:
 Install the following **dependencies**: awk, bash, curl, **fzf**, grep, head, **jq**, sed, sort, uniq, **xdccget**.
 Make sure that xdccget is executable and is added to `$PATH`.
