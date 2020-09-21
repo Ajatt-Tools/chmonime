@@ -13,7 +13,7 @@ Features:
 * and more
 
 ### config
-`manyame.conf` in main folder.
+`manyame.conf` creates automatically in main folder.
 
 `f` is for download folder
 
