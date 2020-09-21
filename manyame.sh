@@ -30,7 +30,7 @@ else
     echo "api $api" >> $config
 fi
 folder=$(grep "^f" $config | awk '{$1=""; print $0}')
-api=$(grep "^api" $config | awk '{print $2}'
+api=$(grep "^api" $config | awk '{print $2}')
 echo -n "Enter Title: "
 read -r title
 echo -n "Enter Episode: "
