@@ -33,7 +33,7 @@ read -r episode
 chmonimeperc=$(echo "$title" | sed 's/ /%20/g')
 botlist=$(curl -s "https://api.nibl.co.uk/nibl/bots" | jq -r '.content[] | "\(.id) \(.name)"')
 animelist=$(curl -s "https://api.nibl.co.uk/nibl/search?query=$chmonimeperc&episodeNumber=$episode" | jq '.')
-if test -f "$episode"; then
+if test "$episode"; then
     choose=$(echo "$animelist" | jq -r '.content[] | .size + " | " + .name' | sort | uniq | awk '{printf "%s %08.2f\t%s\n", index("KMG", substr($1, length($1))), substr($1, 0, length($1)-1), $0}' | sort | cut -f2,3 | fzf -m --reverse --no-sort --exact)
 else
     choose=$(echo "$animelist" | jq -r '.content[] | .size + " | " + .name' | sort | uniq  | fzf -m --reverse --no-sort --exact)
