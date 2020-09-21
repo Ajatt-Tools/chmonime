@@ -3,7 +3,6 @@ DIR="$( cd "$( dirname "${BASH_SOURCE}" )" >/dev/null 2>&1 && pwd )"
 if uname | grep -i -q "Windows\|Mingw\|Cygwin" ; then
     PATH="$PATH;$DIR"
 else
-    PATH="$PATH:$DIR"
     tempsh=$(mktemp)
 fi
 config="manyame.conf"
