@@ -21,5 +21,24 @@ https://github.com/Ajatt-Tools/manyame/releases/tag/1.3.0
 
 Download from releases or get packages from Linux dependencies and build xdccget by yourself. **Run from bat file, just click manyame.bat or create shortcut for it**
 
+## Android
+[RhytmLunatic](https://github.com/RhythmLunatic/) wrote a [simple instruction](https://old.reddit.com/r/animepiracy/comments/iw5tle/manyame_130_many_new_features/g62hlkw/) and Makefile to build the app on Android:
+
+```
+Install Termux, then run these commands. For anyone else reading this: don't use wget instead of git clone for manyame because it will break the encoding.
+
+$ pkg install fzf jq openssl build-essential argp
+$ git clone https://github.com/RhythmLunatic/xdccget
+$ cd xdccget
+$ make -f Makefile.Android
+$ cd ..
+$ git clone https://github.com/asakura42/manyame
+$ cp "xdccget/xdccget" "manyame/xdccget"
+$ cd manyame
+$ chmod +x manyame.sh
+
+Then from now on to run it just cd to manyame and do ./manyame.sh
+```
+
 ## xdccget:
 https://github.com/Fantastic-Dave/xdccget - cool cli xdcc downloader written in C. You can compile it with the included makefile. If you are using Windows, Cygwin will be useful for you to compile it. Subsequently, xdccget.exe will depend on the following dll: **cygargp-0.dll, cygcrypto-1.1.dll, cygssl-1.1.dll, cygwin1.dll, cygz.dll**. You can find most of them in the bin folder in the root directory of Cygwin.
