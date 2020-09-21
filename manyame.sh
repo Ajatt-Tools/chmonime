@@ -51,7 +51,7 @@ if uname | grep -i -q "Windows\|Mingw\|Cygwin" ; then
         pacname=$(echo "$animelist" | grep -B1 "$anime" | head -n1 | grep -o -E '[0-9]+')
         foldir=$(echo "$folder$dirname" | sed 's/^ //;s/ $//;s/\/$//;s/\\$//')
         echo "if not exist \"$foldir\" mkdir \"$foldir\" > nul 2> nul" >> "$2"
-        echo "xdccget.exe --dont-confirm-offsets -d \"$foldir\" -q \"irc.rizon.net\" \"#nibl\" \"$botname xdcc ssend #$pacname\"" >> "$2"
+        echo "xdccget.exe --dont-confirm-offsets -d \"$foldir\" -q -p 6697 \"irc.rizon.net\" \"#nibl\" \"$botname xdcc ssend #$pacname\"" >> "$2"
     done < "$1"
 else
     echo "$choose" | while IFS= read -r line ; do
@@ -61,7 +61,7 @@ else
         pacname=$(echo "$animelist" | grep -B1 "$anime" | head -n1 | grep -o -E '[0-9]+')
         foldir=$(echo "$folder$dirname" | sed 's/^ //;s/ $//;s/\/$//')
         echo "mkdir -p \"$foldir\"" >> "$tempsh"
-        echo "xdccget --dont-confirm-offsets -d \"$foldir\" -q \"irc.rizon.net\" \"#nibl\" \"$botname xdcc ssend #$pacname\"" >> "$tempsh"
+        echo "xdccget --dont-confirm-offsets -d \"$foldir\" -q -p 6697 \"irc.rizon.net\" \"#nibl\" \"$botname xdcc ssend #$pacname\"" >> "$tempsh"
     done
     sh "$tempsh"
 fi
