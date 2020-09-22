@@ -1,7 +1,7 @@
 @echo off
 setlocal EnableExtensions
 if exist "manyame.sh" goto :check
-curl -sLO https://raw.githubusercontent.com/whew/manyame/master/manyame.sh
+busybox wget -q https://raw.githubusercontent.com/whew/manyame/master/manyame.sh -O manyame.sh
 :check
 for /f "tokens=* USEBACKQ" %%a in (
 `for %%I in ^(manyame.sh^) do @echo %%~zI`
@@ -9,12 +9,12 @@ for /f "tokens=* USEBACKQ" %%a in (
 set local=%%a
 )
 FOR /F "tokens=* USEBACKQ" %%F IN (
-`curl -sI https://raw.githubusercontent.com/whew/manyame/master/manyame.sh  ^| busybox awk "/Content-Length/ { print $2 }"`) DO (
+`busybox wget -q --spider --server-response https://raw.githubusercontent.com/whew/manyame/master/manyame.sh  ^| busybox awk "/Content-Length/ { print $2 }"`) DO (
 SET remote=%%F
 )
 IF %remote% EQU %local% (GOTO uniqLoop) ELSE (GOTO dl)
 :dl
-curl -sLO https://raw.githubusercontent.com/whew/manyame/master/manyame.sh
+busybox wget -q https://raw.githubusercontent.com/whew/manyame/master/manyame.sh -O manyame.sh
 GOTO uniqLoop
 :uniqLoop
 set "uniqueFileName=%tmp%\rand%RANDOM%.tmp"
@@ -27,3 +27,4 @@ busybox bash manyame.sh "%uniqueFileName%" "%uniqueBatName%" %*
 call %uniqueBatName%
 echo Success! Press enter to exit...
 pause >nul
+
