@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/bash
 DIR="$( cd "$( dirname "${BASH_SOURCE}" )" >/dev/null 2>&1 && pwd )"
 if uname | grep -i -q "Windows\|Mingw\|Cygwin" ; then
     PATH="$PATH;$DIR"
@@ -27,237 +27,255 @@ else
     echo -n ''
     read -r api
     echo "api $api" >> $config
+    echo "Do you have Ruby installed? yes/no"
+    echo -n ''
+    read -r isruby
+    echo "ruby $isruby" >> $config
+    echo "" >> $config
+    echo "# xget config" >> $config
+    echo "# Specify directory to save to, this can be anywhere" >> $config
+    echo "out-dir=$animefolder" >> $config
+    echo "# Skip downloads that already exist, instead of just downloading" >> $config
+    echo "# again under a slightly different name" >> $config
+    echo "skip-existing=true" >> $config
+    echo "sleep-interval=5" >> $config
+    echo "allow-queueing=true" >> $config
 fi
+
+# Config variables
 folder=$(grep "^f" $config | awk '{$1=""; print $0}')
 api=$(grep "^api" $config | awk '{print $2}')
+isruby=$(grep "^ruby" $config | awk '{print $2}')
+
 echo -n "Enter Title: "
 read -r title
-echo -n "Enter Episode: "
+echo -n "Enter Episode (leave empty for batch): "
 read -r episode
 
 ### Jsonparse - https://github.com/dominictarr/JSON.sh
 jsonparse () {
-throw() {
-  echo "$*" >&2
-  exit 1
-}
-
-BRIEF=0
-LEAFONLY=0
-PRUNE=0
-NO_HEAD=0
-NORMALIZE_SOLIDUS=0
-
-usage() {
-  echo
-  echo "Usage: JSON.sh [-b] [-l] [-p] [-s] [-h]"
-  echo
-  echo "-p - Prune empty. Exclude fields with empty values."
-  echo "-l - Leaf only. Only show leaf nodes, which stops data duplication."
-  echo "-b - Brief. Combines 'Leaf only' and 'Prune empty' options."
-  echo "-n - No-head. Do not show nodes that have no path (lines that start with [])."
-  echo "-s - Remove escaping of the solidus symbol (straight slash)."
-  echo "-h - This help text."
-  echo
-}
-
-parse_options() {
-  set -- "$@"
-  local ARGN=$#
-  while [ "$ARGN" -ne 0 ]
-  do
-    case $1 in
-      -h) usage
-          exit 0
-      ;;
-      -b) BRIEF=1
-          LEAFONLY=1
-          PRUNE=1
-      ;;
-      -l) LEAFONLY=1
-      ;;
-      -p) PRUNE=1
-      ;;
-      -n) NO_HEAD=1
-      ;;
-      -s) NORMALIZE_SOLIDUS=1
-      ;;
-      ?*) echo "ERROR: Unknown option."
-          usage
-          exit 0
-      ;;
-    esac
-    shift 1
-    ARGN=$((ARGN-1))
-  done
-}
-
-awk_egrep () {
-  local pattern_string=$1
-
-  gawk '{
-    while ($0) {
-      start=match($0, pattern);
-      token=substr($0, start, RLENGTH);
-      print token;
-      $0=substr($0, start+RLENGTH);
+    throw() {
+        echo "$*" >&2
+        exit 1
     }
-  }' pattern="$pattern_string"
-}
 
-tokenize () {
-  local GREP
-  local ESCAPE
-  local CHAR
+    BRIEF=0
+    LEAFONLY=0
+    PRUNE=0
+    NO_HEAD=0
+    NORMALIZE_SOLIDUS=0
 
-  if echo "test string" | egrep -ao --color=never "test" >/dev/null 2>&1
-  then
-    GREP='egrep -ao --color=never'
-  else
-    GREP='egrep -ao'
-  fi
+    usage() {
+        echo
+        echo "Usage: JSON.sh [-b] [-l] [-p] [-s] [-h]"
+        echo
+        echo "-p - Prune empty. Exclude fields with empty values."
+        echo "-l - Leaf only. Only show leaf nodes, which stops data duplication."
+        echo "-b - Brief. Combines 'Leaf only' and 'Prune empty' options."
+        echo "-n - No-head. Do not show nodes that have no path (lines that start with [])."
+        echo "-s - Remove escaping of the solidus symbol (straight slash)."
+        echo "-h - This help text."
+        echo
+    }
 
-  if echo "test string" | egrep -o "test" >/dev/null 2>&1
-  then
-    ESCAPE='(\\[^u[:cntrl:]]|\\u[0-9a-fA-F]{4})'
-    CHAR='[^[:cntrl:]"\\]'
-  else
-    GREP=awk_egrep
-    ESCAPE='(\\\\[^u[:cntrl:]]|\\u[0-9a-fA-F]{4})'
-    CHAR='[^[:cntrl:]"\\\\]'
-  fi
+    parse_options() {
+        set -- "$@"
+        local ARGN=$#
+        while [ "$ARGN" -ne 0 ]
+        do
+            case $1 in
+                -h) usage
+                    exit 0
+                    ;;
+                -b) BRIEF=1
+                    LEAFONLY=1
+                    PRUNE=1
+                    ;;
+                -l) LEAFONLY=1
+                    ;;
+                -p) PRUNE=1
+                    ;;
+                -n) NO_HEAD=1
+                    ;;
+                -s) NORMALIZE_SOLIDUS=1
+                    ;;
+                ?*) echo "ERROR: Unknown option."
+                    usage
+                    exit 0
+                    ;;
+            esac
+            shift 1
+            ARGN=$((ARGN-1))
+        done
+    }
 
-  local STRING="\"$CHAR*($ESCAPE$CHAR*)*\""
-  local NUMBER='-?(0|[1-9][0-9]*)([.][0-9]*)?([eE][+-]?[0-9]*)?'
-  local KEYWORD='null|false|true'
-  local SPACE='[[:space:]]+'
+    awk_egrep () {
+        local pattern_string=$1
 
-  # Force zsh to expand $A into multiple words
-  local is_wordsplit_disabled=$(unsetopt 2>/dev/null | grep -c '^shwordsplit$')
-  if [ $is_wordsplit_disabled != 0 ]; then setopt shwordsplit; fi
-  $GREP "$STRING|$NUMBER|$KEYWORD|$SPACE|." | egrep -v "^$SPACE$"
-  if [ $is_wordsplit_disabled != 0 ]; then unsetopt shwordsplit; fi
-}
+        gawk '{
+        while ($0) {
+            start=match($0, pattern);
+            token=substr($0, start, RLENGTH);
+            print token;
+            $0=substr($0, start+RLENGTH);
+        }
+    }' pattern="$pattern_string"
+    }
 
-parse_array () {
-  local index=0
-  local ary=''
-  read -r token
-  case "$token" in
-    ']') ;;
-    *)
-      while :
-      do
-        parse_value "$1" "$index"
-        index=$((index+1))
-        ary="$ary""$value" 
+    tokenize () {
+        local GREP
+        local ESCAPE
+        local CHAR
+
+        if echo "test string" | egrep -ao --color=never "test" >/dev/null 2>&1
+        then
+            GREP='egrep -ao --color=never'
+        else
+            GREP='egrep -ao'
+        fi
+
+        if echo "test string" | egrep -o "test" >/dev/null 2>&1
+        then
+            ESCAPE='(\\[^u[:cntrl:]]|\\u[0-9a-fA-F]{4})'
+            CHAR='[^[:cntrl:]"\\]'
+        else
+            GREP=awk_egrep
+            ESCAPE='(\\\\[^u[:cntrl:]]|\\u[0-9a-fA-F]{4})'
+            CHAR='[^[:cntrl:]"\\\\]'
+        fi
+
+        local STRING="\"$CHAR*($ESCAPE$CHAR*)*\""
+        local NUMBER='-?(0|[1-9][0-9]*)([.][0-9]*)?([eE][+-]?[0-9]*)?'
+        local KEYWORD='null|false|true'
+        local SPACE='[[:space:]]+'
+
+    # Force zsh to expand $A into multiple words
+    local is_wordsplit_disabled=$(unsetopt 2>/dev/null | grep -c '^shwordsplit$')
+    if [ $is_wordsplit_disabled != 0 ]; then setopt shwordsplit; fi
+    $GREP "$STRING|$NUMBER|$KEYWORD|$SPACE|." | egrep -v "^$SPACE$"
+    if [ $is_wordsplit_disabled != 0 ]; then unsetopt shwordsplit; fi
+    }
+
+    parse_array () {
+        local index=0
+        local ary=''
         read -r token
         case "$token" in
-          ']') break ;;
-          ',') ary="$ary," ;;
-          *) throw "EXPECTED , or ] GOT ${token:-EOF}" ;;
+            ']') ;;
+            *)
+                while :
+                do
+                    parse_value "$1" "$index"
+                    index=$((index+1))
+                    ary="$ary""$value"
+                    read -r token
+                    case "$token" in
+                        ']') break ;;
+                        ',') ary="$ary," ;;
+                        *) throw "EXPECTED , or ] GOT ${token:-EOF}" ;;
+                    esac
+                    read -r token
+                done
+                ;;
         esac
-        read -r token
-      done
-      ;;
-  esac
-  [ "$BRIEF" -eq 0 ] && value=$(printf '[%s]' "$ary") || value=
-  :
-}
+        [ "$BRIEF" -eq 0 ] && value=$(printf '[%s]' "$ary") || value=
+        :
+    }
 
-parse_object () {
-  local key
-  local obj=''
-  read -r token
-  case "$token" in
-    '}') ;;
-    *)
-      while :
-      do
-        case "$token" in
-          '"'*'"') key=$token ;;
-          *) throw "EXPECTED string GOT ${token:-EOF}" ;;
-        esac
-        read -r token
-        case "$token" in
-          ':') ;;
-          *) throw "EXPECTED : GOT ${token:-EOF}" ;;
-        esac
-        read -r token
-        parse_value "$1" "$key"
-        obj="$obj$key:$value"        
+    parse_object () {
+        local key
+        local obj=''
         read -r token
         case "$token" in
-          '}') break ;;
-          ',') obj="$obj," ;;
-          *) throw "EXPECTED , or } GOT ${token:-EOF}" ;;
+            '}') ;;
+            *)
+                while :
+                do
+                    case "$token" in
+                        '"'*'"') key=$token ;;
+                        *) throw "EXPECTED string GOT ${token:-EOF}" ;;
+                    esac
+                    read -r token
+                    case "$token" in
+                        ':') ;;
+                        *) throw "EXPECTED : GOT ${token:-EOF}" ;;
+                    esac
+                    read -r token
+                    parse_value "$1" "$key"
+                    obj="$obj$key:$value"
+                    read -r token
+                    case "$token" in
+                        '}') break ;;
+                        ',') obj="$obj," ;;
+                        *) throw "EXPECTED , or } GOT ${token:-EOF}" ;;
+                    esac
+                    read -r token
+                done
+                ;;
         esac
-        read -r token
-      done
-    ;;
-  esac
-  [ "$BRIEF" -eq 0 ] && value=$(printf '{%s}' "$obj") || value=
-  :
-}
+        [ "$BRIEF" -eq 0 ] && value=$(printf '{%s}' "$obj") || value=
+        :
+    }
 
-parse_value () {
-  local jpath="${1:+$1,}$2" isleaf=0 isempty=0 print=0
-  case "$token" in
-    '{') parse_object "$jpath" ;;
-    '[') parse_array  "$jpath" ;;
-    # At this point, the only valid single-character tokens are digits.
-    ''|[!0-9]) throw "EXPECTED value GOT ${token:-EOF}" ;;
-    *) value=$token
-       # if asked, replace solidus ("\/") in json strings with normalized value: "/"
-       [ "$NORMALIZE_SOLIDUS" -eq 1 ] && value=$(echo "$value" | sed 's#\\/#/#g')
-       isleaf=1
-       [ "$value" = '""' ] && isempty=1
-       ;;
-  esac
-  [ "$value" = '' ] && return
-  [ "$NO_HEAD" -eq 1 ] && [ -z "$jpath" ] && return
+    parse_value () {
+        local jpath="${1:+$1,}$2" isleaf=0 isempty=0 print=0
+        case "$token" in
+            '{') parse_object "$jpath" ;;
+            '[') parse_array  "$jpath" ;;
+            # At this point, the only valid single-character tokens are digits.
+            ''|[!0-9]) throw "EXPECTED value GOT ${token:-EOF}" ;;
+            *) value=$token
+                # if asked, replace solidus ("\/") in json strings with normalized value: "/"
+                [ "$NORMALIZE_SOLIDUS" -eq 1 ] && value=$(echo "$value" | sed 's#\\/#/#g')
+                isleaf=1
+                [ "$value" = '""' ] && isempty=1
+                ;;
+        esac
+        [ "$value" = '' ] && return
+        [ "$NO_HEAD" -eq 1 ] && [ -z "$jpath" ] && return
 
-  [ "$LEAFONLY" -eq 0 ] && [ "$PRUNE" -eq 0 ] && print=1
-  [ "$LEAFONLY" -eq 1 ] && [ "$isleaf" -eq 1 ] && [ $PRUNE -eq 0 ] && print=1
-  [ "$LEAFONLY" -eq 0 ] && [ "$PRUNE" -eq 1 ] && [ "$isempty" -eq 0 ] && print=1
-  [ "$LEAFONLY" -eq 1 ] && [ "$isleaf" -eq 1 ] && \
-    [ $PRUNE -eq 1 ] && [ $isempty -eq 0 ] && print=1
-  [ "$print" -eq 1 ] && printf "[%s]\t%s\n" "$jpath" "$value"
-  :
-}
+        [ "$LEAFONLY" -eq 0 ] && [ "$PRUNE" -eq 0 ] && print=1
+        [ "$LEAFONLY" -eq 1 ] && [ "$isleaf" -eq 1 ] && [ $PRUNE -eq 0 ] && print=1
+        [ "$LEAFONLY" -eq 0 ] && [ "$PRUNE" -eq 1 ] && [ "$isempty" -eq 0 ] && print=1
+        [ "$LEAFONLY" -eq 1 ] && [ "$isleaf" -eq 1 ] && \
+            [ $PRUNE -eq 1 ] && [ $isempty -eq 0 ] && print=1
+                [ "$print" -eq 1 ] && printf "[%s]\t%s\n" "$jpath" "$value"
+                :
+            }
 
-parse () {
-  read -r token
-  parse_value
-  read -r token
-  case "$token" in
-    '') ;;
-    *) throw "EXPECTED EOF GOT $token" ;;
-  esac
-}
+        parse () {
+            read -r token
+            parse_value
+            read -r token
+            case "$token" in
+                '') ;;
+                *) throw "EXPECTED EOF GOT $token" ;;
+            esac
+        }
 
-if ([ "$0" = "$BASH_SOURCE" ] || ! [ -n "$BASH_SOURCE" ]);
-then
-  parse_options "$@"
-  tokenize | parse
-fi
+    if ([ "$0" = "$BASH_SOURCE" ] || ! [ -n "$BASH_SOURCE" ]);
+    then
+        parse_options "$@"
+        tokenize | parse
+    fi
 
-# vi: expandtab sw=2 ts=2
+    # vi: expandtab sw=2 ts=2
 }
 
 
 chmonimeperc=$(echo "$title" | sed 's/ /%20/g')
 botlist=$(wget -q -O - "https://api.nibl.co.uk/nibl/bots" | jsonparse -b | awk '/id"]/ { cached = $2 } /name"]/ {print cached " " $2}' | sed 's/"//g')
 animelist=$(wget -q -O - "https://api.nibl.co.uk/nibl/search?query=$chmonimeperc&episodeNumber=$episode"  | jsonparse -b)
-if uname | grep -i -q "Windows\|Mingw\|Cygwin" ; then
-	screensize=$(mode | head -n5 | tail -n1 | grep -Eo '[0-9]+$'| awk '{ sum = $1 - 1; print sum}')
-else
-	screensize=$(tput cols)
-fi
+# For fzy
+#if uname | grep -i -q "Windows\|Mingw\|Cygwin" ; then
+#   screensize=$(mode | head -n5 | tail -n1 | grep -Eo '[0-9]+$'| awk '{ sum = $1 - 1; print sum}')
+#else
+#   screensize=$(tput cols)
+#fi
 if test "$episode"; then
-    choose=$(echo "$animelist" |  grep -o "name\"\].*\|size\"\].*" | awk '{getline x;print x;}1' | awk 'NR%2 {printf "%s ",$0;next;}1' | sed 's/size"]//g;s/name"]//g;s/"//g;s/\t//g;s/ / | /' awk '{printf "%s %08.2f\t%s\n", index("KMG", substr($1, length($1))), substr($1, 0, length($1)-1), $0}' | sort | cut -f2,3 | cut -c 1-$screensize | fzy -l 20)
+    choose=$(echo "$animelist" |  grep -o "name\"\].*\|size\"\].*" | awk '{getline x;print x;}1' | awk 'NR%2 {printf "%s ",$0;next;}1' | sed 's/size"]//g;s/name"]//g;s/"//g;s/\t//g;s/ / | /' awk '{printf "%s %08.2f\t%s\n", index("KMG", substr($1, length($1))), substr($1, 0, length($1)-1), $0}' | sort | cut -f2,3 | fzf -m --reverse --no-sort --exact)
 else
-    choose=$(echo "$animelist" |  grep -o "name\"\].*\|size\"\].*" | awk '{getline x;print x;}1' | awk 'NR%2 {printf "%s ",$0;next;}1' | sed 's/size"]//g;s/name"]//g;s/"//g;s/\t//g;s/ / | /' | sort -t'|' -k2 | cut -c 1-$screensize  | fzy -l 20)
+    choose=$(echo "$animelist" |  grep -o "name\"\].*\|size\"\].*" | awk '{getline x;print x;}1' | awk 'NR%2 {printf "%s ",$0;next;}1' | sed 's/size"]//g;s/name"]//g;s/"//g;s/\t//g;s/ / | /' | sort -t'|' -k2 | fzf -m --reverse --no-sort --exact)
 fi
 choose=$(echo "$choose" | sed 's/^.*| //')
 nosquare=$(echo "$choose"  | sed 's/_/ /g;s/\(.*\)- .*/\1/;s/[0-9]//g;s/\[[^]]*\]//g;s/[0-9]//g;s/([^)]*)//g;s/\.[^.]*$//;s/^ *//g;s/ *$//' | sort -nf | uniq -ci | sort -nr | head -n1 |awk '{ print substr($0, index($0,$2)) }' | sed 's/ /%20/g')
@@ -269,6 +287,11 @@ else
     true
 fi
 if uname | grep -i -q "Windows\|Mingw\|Cygwin" ; then
+    if [[ "$isruby" == "yes" ]] ; then
+        rubycmd="ruby xget.rb"
+    else
+        rubycmd="xget.exe"
+    fi
     foldir=$(echo "$folder$dirname" | sed 's/^ //;s/ $//;s/\/$//;s/\\$//')
     echo "if not exist \"$foldir\" mkdir \"$foldir\" > nul 2> nul" >> "$2"
     while IFS= read -r line ; do
@@ -276,7 +299,7 @@ if uname | grep -i -q "Windows\|Mingw\|Cygwin" ; then
         botnumber=$(echo "$animelist" | grep -B2 "$anime" | head -n1 | grep -o -E '[0-9]+')
         botname=$(echo "$botlist" | grep "^$botnumber" | awk '{print $2}' | head -n1)
         pacname=$(echo "$animelist" | grep -B1 "$anime" | head -n1 | grep -o -E '[0-9]+')
-        echo "xdccget.exe --dont-confirm-offsets -d \"$foldir\" -q \"irc.rizon.net\" \"#nibl\" \"$botname xdcc send #$pacname\"" >> "$2"
+        echo "$rubycmd --out-dir \"$foldir\" --allow-queueing --skip-existing  --user $(echo $RANDOM$RANDOM$RANDOM) --nick $(echo $RANDOM$RANDOM$RANDOM) --allow-queueing \"#nibl@irc.rizon.net/$botname/$pacname\"" >> "$2"
     done < "$1"
 else
     foldir=$(echo "$folder$dirname" | sed 's/^ //;s/ $//;s/\/$//')
@@ -286,7 +309,7 @@ else
         botnumber=$(echo "$animelist" | grep -B2 "$anime" | head -n1 | grep -o -E '[0-9]+')
         botname=$(echo "$botlist" | grep "^$botnumber" | awk '{print $2}' | head -n1)
         pacname=$(echo "$animelist" | grep -B1 "$anime" | head -n1 | grep -o -E '[0-9]+')
-        echo "xdccget --dont-confirm-offsets -d \"$foldir\" -q \"irc.rizon.net\" \"#nibl\" \"$botname xdcc send #$pacname\"" >> "$tempsh"
+        echo "$rubycmd --out-dir \"$foldir\" --allow-queueing --skip-existing  --user $(echo $RANDOM$RANDOM$RANDOM) --nick $(echo $RANDOM$RANDOM$RANDOM) --allow-queueing \"#nibl@irc.rizon.net/$botname/$pacname\"" >> "$tempsh"
     done
     sh "$tempsh"
 fi
