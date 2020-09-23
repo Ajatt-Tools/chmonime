@@ -249,10 +249,15 @@ fi
 chmonimeperc=$(echo "$title" | sed 's/ /%20/g')
 botlist=$(wget -q -O - "https://api.nibl.co.uk/nibl/bots" | jsonparse -b | awk '/id"]/ { cached = $2 } /name"]/ {print cached " " $2}' | sed 's/"//g')
 animelist=$(wget -q -O - "https://api.nibl.co.uk/nibl/search?query=$chmonimeperc&episodeNumber=$episode"  | jsonparse -b)
-if test "$episode"; then
-    choose=$(echo "$animelist" |  grep -o "name\"\].*\|size\"\].*" | awk '{getline x;print x;}1' | awk 'NR%2 {printf "%s ",$0;next;}1' | sed 's/size"]//g;s/name"]//g;s/"//g;s/\t//g;s/ / | /' awk '{printf "%s %08.2f\t%s\n", index("KMG", substr($1, length($1))), substr($1, 0, length($1)-1), $0}' | sort | cut -f2,3 | fzy)
+if uname | grep -i -q "Windows\|Mingw\|Cygwin" ; then
+	screensize=$(mode | head -n5 | tail -n1 | awk "{print $NF}")
 else
-    choose=$(echo "$animelist" |  grep -o "name\"\].*\|size\"\].*" | awk '{getline x;print x;}1' | awk 'NR%2 {printf "%s ",$0;next;}1' | sed 's/size"]//g;s/name"]//g;s/"//g;s/\t//g;s/ / | /' | sort -t'|' -k2 | fzy)
+	screensize=$(tput cols)
+fi
+if test "$episode"; then
+    choose=$(echo "$animelist" |  grep -o "name\"\].*\|size\"\].*" | awk '{getline x;print x;}1' | awk 'NR%2 {printf "%s ",$0;next;}1' | sed 's/size"]//g;s/name"]//g;s/"//g;s/\t//g;s/ / | /' awk '{printf "%s %08.2f\t%s\n", index("KMG", substr($1, length($1))), substr($1, 0, length($1)-1), $0}' | sort | cut -f2,3 | cut -c 1-$screensize | fzy)
+else
+    choose=$(echo "$animelist" |  grep -o "name\"\].*\|size\"\].*" | awk '{getline x;print x;}1' | awk 'NR%2 {printf "%s ",$0;next;}1' | sed 's/size"]//g;s/name"]//g;s/"//g;s/\t//g;s/ / | /' | sort -t'|' -k2 | cut -c 1-$screensize  | fzy)
 fi
 choose=$(echo "$choose" | sed 's/^.*| //')
 nosquare=$(echo "$choose"  | sed 's/_/ /g;s/\(.*\)- .*/\1/;s/[0-9]//g;s/\[[^]]*\]//g;s/[0-9]//g;s/([^)]*)//g;s/\.[^.]*$//;s/^ *//g;s/ *$//' | sort -nf | uniq -ci | sort -nr | head -n1 |awk '{ print substr($0, index($0,$2)) }' | sed 's/ /%20/g')
