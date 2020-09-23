@@ -250,7 +250,7 @@ chmonimeperc=$(echo "$title" | sed 's/ /%20/g')
 botlist=$(wget -q -O - "https://api.nibl.co.uk/nibl/bots" | jsonparse -b | awk '/id"]/ { cached = $2 } /name"]/ {print cached " " $2}' | sed 's/"//g')
 animelist=$(wget -q -O - "https://api.nibl.co.uk/nibl/search?query=$chmonimeperc&episodeNumber=$episode"  | jsonparse -b)
 if uname | grep -i -q "Windows\|Mingw\|Cygwin" ; then
-	screensize=$(mode | head -n5 | tail -n1 | awk "{print $NF}")
+	screensize=$(mode | head -n5 | tail -n1 | grep -Eo '[0-9]+$')
 else
 	screensize=$(tput cols)
 fi
