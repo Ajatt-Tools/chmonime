@@ -33,8 +33,6 @@ else
     echo "ruby $isruby" >> $config
     echo "" >> $config
     echo "# xget config" >> $config
-    echo "# Specify directory to save to, this can be anywhere" >> $config
-    echo "out-dir=$animefolder" >> $config
     echo "# Skip downloads that already exist, instead of just downloading" >> $config
     echo "# again under a slightly different name" >> $config
     echo "skip-existing=true" >> $config
@@ -280,7 +278,7 @@ fi
 choose=$(echo "$choose" | sed 's/^.*| //')
 nosquare=$(echo "$choose"  | sed 's/_/ /g;s/\(.*\)- .*/\1/;s/[0-9]//g;s/\[[^]]*\]//g;s/[0-9]//g;s/([^)]*)//g;s/\.[^.]*$//;s/^ *//g;s/ *$//' | sort -nf | uniq -ci | sort -nr | head -n1 |awk '{ print substr($0, index($0,$2)) }' | sed 's/ /%20/g')
 #nosquare=$(echo "$choose" | sed -e 's/_/ /g;s/([^()]*)//g;s/[0-9]//g;s/\[[^]]*\]//g;s/\.[^.]*$//' | grep -oh "\w*" | tr ' ' '\n' | sort -nf | uniq -ci | sort -nr | awk '{array[$2]=$1; sum+=$1} END { for (i in array) printf "%-20s %-15d %6.2f\n", i, array[i], array[i]/sum*100}' | awk '$3>20 {print $1}' | tr '\n' ' ' | sed 's/ $//;s/ /%20/g')
-dirname=$(wget -q -O - "https://kitsu.io/api/edge/anime?filter[text]=$nosquare&page[limit]=1&page[offset]=0" | jsonparse -b |  grep -oP 'canonicalTitle"].*' | sed 's/canonicalTitle"\]//g;s/\t//;s/"//g' | sed 's/\// /g;s/</ /g;s/>/ /g;s/:/ -/g;s/"/ /g;s/\\/ /g;s/|/ /g;s/?/ /g;s/*/ /g;s/  */ /g')
+dirname=$(wget -q -O - "https://kitsu.io/api/edge/anime?filter[text]=$nosquare&page[limit]=1&page[offset]=0" | jsonparse -b |  grep 'canonicalTitle"].*' | sed 's/^.*canonicalTitle"\]//g;s/\t//;s/"//g' | sed 's/\// /g;s/</ /g;s/>/ /g;s/:/ -/g;s/"/ /g;s/\\/ /g;s/|/ /g;s/?/ /g;s/*/ /g;s/  */ /g')
 if uname | grep -i -q "Windows\|Mingw\|Cygwin" ; then
     echo "$choose" > "$1"
 else
@@ -296,20 +294,20 @@ if uname | grep -i -q "Windows\|Mingw\|Cygwin" ; then
     echo "if not exist \"$foldir\" mkdir \"$foldir\" > nul 2> nul" >> "$2"
     while IFS= read -r line ; do
         anime=$(echo "$line" |  sed 's/\[/\\\[/g;s/\]/\\\]/g')
-        botnumber=$(echo "$animelist" | grep -B2 "$anime" | head -n1 | grep -o -E '[0-9]+')
+        botnumber=$(echo "$animelist" | grep -B2 "$anime" | head -n1 | grep -o -E '[0-9]+$')
         botname=$(echo "$botlist" | grep "^$botnumber" | awk '{print $2}' | head -n1)
-        pacname=$(echo "$animelist" | grep -B1 "$anime" | head -n1 | grep -o -E '[0-9]+')
-        echo "$rubycmd --out-dir \"$foldir\" --allow-queueing --skip-existing  --user $(echo $RANDOM$RANDOM$RANDOM) --nick $(echo $RANDOM$RANDOM$RANDOM) --allow-queueing \"#nibl@irc.rizon.net/$botname/$pacname\"" >> "$2"
+        pacname=$(echo "$animelist" | grep -B1 "$anime" | head -n1 | grep -o -E '[0-9]+$')
+        echo "$rubycmd --out-dir \"$foldir\" \"#nibl@irc.rizon.net/$botname/$pacname\"" >> "$2"
     done < "$1"
 else
     foldir=$(echo "$folder$dirname" | sed 's/^ //;s/ $//;s/\/$//')
     echo "mkdir -p \"$foldir\"" >> "$tempsh"
     echo "$choose" | while IFS= read -r line ; do
         anime=$(echo "$line" | sed 's/\[/\\\[/g;s/\]/\\\]/g')
-        botnumber=$(echo "$animelist" | grep -B2 "$anime" | head -n1 | grep -o -E '[0-9]+')
+        botnumber=$(echo "$animelist" | grep -B2 "$anime" | head -n1 | grep -o -E '[0-9]+$')
         botname=$(echo "$botlist" | grep "^$botnumber" | awk '{print $2}' | head -n1)
-        pacname=$(echo "$animelist" | grep -B1 "$anime" | head -n1 | grep -o -E '[0-9]+')
-        echo "$rubycmd --out-dir \"$foldir\" --allow-queueing --skip-existing  --user $(echo $RANDOM$RANDOM$RANDOM) --nick $(echo $RANDOM$RANDOM$RANDOM) --allow-queueing \"#nibl@irc.rizon.net/$botname/$pacname\"" >> "$tempsh"
+        pacname=$(echo "$animelist" | grep -B1 "$anime" | head -n1 | grep -o -E '[0-9]+$')
+        echo "$rubycmd --out-dir \"$foldir\" \"#nibl@irc.rizon.net/$botname/$pacname\"" >> "$tempsh"
     done
     sh "$tempsh"
 fi
