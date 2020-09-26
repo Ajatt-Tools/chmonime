@@ -264,7 +264,7 @@ animelist=$(wget -q -O - "https://api.nibl.co.uk/nibl/search?query=$chmonimeperc
 #   screensize=$(tput cols)
 #fi
 if test "$episode"; then
-    choose=$(echo "$animelist" |  grep -o "name\"\].*\|size\"\].*" | awk '{getline x;print x;}1' | awk 'NR%2 {printf "%s ",$0;next;}1' | sed 's/size"]//g;s/name"]//g;s/"//g;s/\t//g;s/ / | /' awk '{printf "%s %08.2f\t%s\n", index("KMG", substr($1, length($1))), substr($1, 0, length($1)-1), $0}' | sort | cut -f2,3)
+    choose=$(echo "$animelist" |  grep -o "name\"\].*\|size\"\].*" | awk '{getline x;print x;}1' | awk 'NR%2 {printf "%s ",$0;next;}1' | sed 's/size"]//g;s/name"]//g;s/"//g;s/\t//g;s/ / | /' | awk '{printf "%s %08.2f\t%s\n", index("KMG", substr($1, length($1))), substr($1, 0, length($1)-1), $0}' | sort | cut -f2,3)
     if test "$quality" ; then
         choose1=$(echo "$choose" | grep "$quality")
         choose2=$(echo "$choose" | grep -v "$quality")
