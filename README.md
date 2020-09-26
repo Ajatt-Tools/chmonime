@@ -12,6 +12,20 @@ Features:
 * you can specify settings in config file
 * and more
 
+### config
+`manyame.conf` in main folder.
+`manyame.conf` creates automatically at first launch.
+
+`f` is for download folder
+
+`q` is for preferable anime quality: `720p` or `1080p`. Files with this quality shows first in the list.
+
+example:
+```
+f D:\Anime\
+api mal
+```
+
 ## Linux:
 Install the following **dependencies**: awk, bash, **fzf**, grep, head, sed, sort, uniq, **xdccget**.
 Make sure that xdccget is executable and is added to `$PATH`.
