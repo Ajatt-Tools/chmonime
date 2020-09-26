@@ -23,10 +23,10 @@ else
         exit
     fi
     echo "f $animefolder" >> $config
-    echo "Enter preferable api source: kitsu or mal"
-    echo -n ''
-    read -r api
-    echo "api $api" >> $config
+    #echo "Enter preferable api source: kitsu or mal"
+    #echo -n ''
+    #read -r api
+    echo "api kitsu" >> $config
     echo "Do you have Ruby installed? yes/no"
     echo -n ''
     read -r isruby
@@ -42,7 +42,7 @@ fi
 
 # Config variables
 folder=$(grep "^f" $config | awk '{$1=""; print $0}')
-api=$(grep "^api" $config | awk '{print $2}')
+#api=$(grep "^api" $config | awk '{print $2}')
 isruby=$(grep "^ruby" $config | awk '{print $2}')
 
 echo -n "Enter Title: "
