@@ -23,7 +23,7 @@ Features:
 example:
 ```
 f D:\Anime\
-api mal
+q 720p
 ```
 
 ## Linux:
