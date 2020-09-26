@@ -268,7 +268,7 @@ if test "$episode"; then
     if test "$quality" ; then
         choose1=$(echo "$choose" | grep "$quality")
         choose2=$(echo "$choose" | grep -v "$quality")
-        choose=$(echo -e "$choose1" "\n" "$choose2" | sed -e 's/^[ \t]*//' | fzf -m --reverse --no-sort --exact)
+        choose=$(echo -e "$choose1" "\n" "$choose2" | sed -e 's/^[ \t]*//' | sed '/^[[:space:]]*$/d' | fzf -m --reverse --no-sort --exact)
     else
         choose=$(echo "$choose" | fzf -m --reverse --no-sort --exact)
     fi
@@ -277,7 +277,7 @@ else
     if test "$quality" ; then
         choose1=$(echo "$choose" | grep "$quality")
         choose2=$(echo "$choose" | grep -v "$quality")
-        choose=$(echo -e "$choose1" "\n" "$choose2" | sed -e 's/^[ \t]*//' | fzf -m --reverse --no-sort --exact)
+        choose=$(echo -e "$choose1" "\n" "$choose2" | sed -e 's/^[ \t]*//' | sed '/^[[:space:]]*$/d' | fzf -m --reverse --no-sort --exact)
     else
         choose=$(echo "$choose" | fzf -m --reverse --no-sort --exact)
     fi
