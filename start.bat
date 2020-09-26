@@ -13,7 +13,7 @@ FOR /F "tokens=* USEBACKQ" %%F IN (
 `Executables\busybox wget -q --spider --server-response https://raw.githubusercontent.com/asakura42/manyame/nobloat/manyame.sh -O - 2^>^&1 ^| busybox sed -ne "/Content-Length/{s/.*: //;p}"`) DO (
 SET remote=%%F
 )
-IF %remote% EQU %local% (GOTO uniqLoop) ELSE (GOTO uniqLoop)
+IF %remote% EQU %local% (GOTO uniqLoop) ELSE (GOTO dl)
 :dl
 Executables\busybox wget -q https://raw.githubusercontent.com/asakura42/manyame/nobloat/manyame.sh -O manyame.sh
 GOTO uniqLoop
