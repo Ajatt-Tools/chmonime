@@ -19,7 +19,7 @@ else
         echo "Please, don't forget slash at the end!"
         echo ""
         echo "Press enter to exit"
-        read key
+        read -r key
         exit
     fi
     echo "f $animefolder" >> $config
@@ -254,7 +254,7 @@ jsonparse () {
 }
 
 
-chmonimeperc=$(echo "$title" | sed 's/ /%20/g')
+chmonimeperc="${title// /%20}"
 botlist=$(wget -q -O - "https://api.nibl.co.uk/nibl/bots" | jsonparse -b | awk '/id"]/ { cached = $2 } /name"]/ {print cached " " $2}' | sed 's/"//g')
 animelist=$(wget -q -O - "https://api.nibl.co.uk/nibl/search?query=$chmonimeperc&episodeNumber=$episode"  | jsonparse -b)
 # For fzy
@@ -315,4 +315,6 @@ else
     done
     sh "$tempsh"
 fi
+
+
 
