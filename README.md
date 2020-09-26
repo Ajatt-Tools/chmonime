@@ -13,8 +13,8 @@ Features:
 * and more
 
 ### config
-`manyame.conf` in main folder.
-`manyame.conf` creates automatically at first launch.
+`config.conf` in main folder.
+`config.conf` creates automatically at first launch.
 
 `f` is for download folder
 
