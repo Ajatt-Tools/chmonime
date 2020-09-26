@@ -18,7 +18,7 @@ Features:
 
 `f` is for download folder
 
-`q` is for preferable anime quality: `720p` or `1080p`. Files with this quality shows first in the list.
+`q` is for preferable anime quality: `720p` or `1080p` or `480p` for example. Files with this quality shows first in the list.
 
 example:
 ```
@@ -31,7 +31,7 @@ Install the following **dependencies**: awk, bash, **fzf**, grep, head, sed, sor
 Make sure that xdccget is executable and is added to `$PATH`.
 
 ## Windows:
-https://github.com/Ajatt-Tools/manyame/releases/tag/1.3.0
+https://github.com/Ajatt-Tools/manyame/releases/tag/2.0.0
 
 Download from releases or get packages from Linux dependencies and build xdccget by yourself. **Run from bat file, just click manyame.bat or create shortcut for it**
 
