@@ -1,7 +1,7 @@
 #!/bin/bash
 DIR="$( cd "$( dirname "${BASH_SOURCE}" )" >/dev/null 2>&1 && pwd )"
 if uname | grep -i -q "Windows\|Mingw\|Cygwin" ; then
-    PATH="$PATH;$DIR"
+    PATH="$PATH;$DIR/Executables"
 else
     tempsh=$(mktemp)
 fi
@@ -311,9 +311,8 @@ else
         botname=$(echo "$botlist" | grep "^$botnumber" | awk '{print $2}' | head -n1)
         pacname=$(echo "$animelist" | grep -B1 "$anime" | head -n1 | grep -o -E '[0-9]+$')
         echo "xdccget --dont-confirm-offsets -d \"$foldir\" -q \"irc.rizon.net\" \"#nibl\" \"$botname xdcc send #$pacname\"" >> "$tempsh"
-        echo "sleep 1" >> "$tempsh"
+        echo "sleep 1" >> "$2"
     done
     sh "$tempsh"
 fi
-
 
