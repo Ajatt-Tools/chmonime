@@ -23,15 +23,15 @@ else
         exit
     fi
     echo "f $animefolder" >> $config
-    echo "Enter preferable api source: kitsu or mal"
-    echo -n ''
-    read -r api
-    echo "api $api" >> $config
+#    echo "Enter preferable api source: kitsu or mal"
+#    echo -n ''
+#    read -r api
+#    echo "api $api" >> $config
 fi
 
 # Config variables
 folder=$(grep "^f" $config | awk '{$1=""; print $0}')
-api=$(grep "^api" $config | awk '{print $2}')
+#api=$(grep "^api" $config | awk '{print $2}')
 
 echo -n "Enter Title: "
 read -r title
@@ -59,7 +59,7 @@ jsonparse () {
         echo "-l - Leaf only. Only show leaf nodes, which stops data duplication."
         echo "-b - Brief. Combines 'Leaf only' and 'Prune empty' options."
         echo "-n - No-head. Do not show nodes that have no path (lines that start with [])."
-        echo "-s - Remove escaping of the solidus symbol (straight slash)."
+        echo "-s - Remove escng of the solidus symbol (straight slash)."
         echo "-h - This help text."
         echo
     }
