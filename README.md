@@ -13,7 +13,7 @@ Features:
 * and more
 
 ## Linux:
-Install the following **dependencies**: awk, bash, curl, **fzf**, grep, head, **jq**, sed, sort, uniq, **xdccget**.
+Install the following **dependencies**: awk, bash, **fzf**, grep, head, sed, sort, uniq, **xdccget**.
 Make sure that xdccget is executable and is added to `$PATH`.
 
 ## Windows:
