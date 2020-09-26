@@ -281,6 +281,7 @@ if uname | grep -i -q "Windows\|Mingw\|Cygwin" ; then
         botname=$(echo "$botlist" | grep "^$botnumber" | awk '{print $2}' | head -n1)
         pacname=$(echo "$animelist" | grep -B1 "$anime" | head -n1 | grep -o -E '[0-9]+$')
         echo "xdccget.exe --dont-confirm-offsets -d \"$foldir\" -q \"irc.rizon.net\" \"#nibl\" \"$botname xdcc send #$pacname\"" >> "$2"
+        echo "timeout 1 >nul" >> "$2"
     done < "$1"
 else
     foldir=$(echo "$folder$dirname" | sed 's/^ //;s/ $//;s/\/$//')
