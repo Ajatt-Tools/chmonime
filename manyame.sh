@@ -5,7 +5,7 @@ if uname | grep -i -q "Windows\|Mingw\|Cygwin" ; then
 else
     tempsh=$(mktemp)
 fi
-config="manyame.conf"
+config="config.conf"
 if test -f "$config"; then
     echo -n ""
 else
