@@ -27,13 +27,6 @@ else
     echo -n ''
     read -r api
     echo "api $api" >> $config
-    echo "" >> $config
-    echo "# xget config" >> $config
-    echo "# Skip downloads that already exist, instead of just downloading" >> $config
-    echo "# again under a slightly different name" >> $config
-    echo "skip-existing=true" >> $config
-    echo "sleep-interval=5" >> $config
-    echo "allow-queueing=true" >> $config
 fi
 
 # Config variables
