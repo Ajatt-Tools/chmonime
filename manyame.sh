@@ -23,6 +23,10 @@ else
         exit
     fi
     echo "f $animefolder" >> $config
+#    echo "Enter preferable quality: 480p, 720p, 1080p or other"
+#    echo -n ''
+#    read -r quality
+#    echo "q $quality" >> $config
 #    echo "Enter preferable api source: kitsu or mal"
 #    echo -n ''
 #    read -r api
@@ -30,8 +34,9 @@ else
 fi
 
 # Config variables
-folder=$(grep "^f" $config | awk '{$1=""; print $0}')
+folder=$(grep "^f " $config | awk '{$1=""; print $0}')
 #api=$(grep "^api" $config | awk '{print $2}')
+quality=$(grep "^q " $config | awk '{print $2}')
 
 echo -n "Enter Title: "
 read -r title
@@ -259,9 +264,23 @@ animelist=$(wget -q -O - "https://api.nibl.co.uk/nibl/search?query=$chmonimeperc
 #   screensize=$(tput cols)
 #fi
 if test "$episode"; then
-    choose=$(echo "$animelist" |  grep -o "name\"\].*\|size\"\].*" | awk '{getline x;print x;}1' | awk 'NR%2 {printf "%s ",$0;next;}1' | sed 's/size"]//g;s/name"]//g;s/"//g;s/\t//g;s/ / | /' awk '{printf "%s %08.2f\t%s\n", index("KMG", substr($1, length($1))), substr($1, 0, length($1)-1), $0}' | sort | cut -f2,3 | fzf -m --reverse --no-sort --exact)
+    choose=$(echo "$animelist" |  grep -o "name\"\].*\|size\"\].*" | awk '{getline x;print x;}1' | awk 'NR%2 {printf "%s ",$0;next;}1' | sed 's/size"]//g;s/name"]//g;s/"//g;s/\t//g;s/ / | /' awk '{printf "%s %08.2f\t%s\n", index("KMG", substr($1, length($1))), substr($1, 0, length($1)-1), $0}' | sort | cut -f2,3)
+    if test "$quality" ; then
+        choose1=$(echo "$choose" | grep "$quality")
+        choose2=$(echo "$choose" | grep -v "$quality")
+        choose=$(echo -e "$choose1" "\n" "$choose2" | sed -e 's/^[ \t]*//' | fzf -m --reverse --no-sort --exact)
+    else
+        choose=$(echo "$choose" | fzf -m --reverse --no-sort --exact)
+    fi
 else
-    choose=$(echo "$animelist" |  grep -o "name\"\].*\|size\"\].*" | awk '{getline x;print x;}1' | awk 'NR%2 {printf "%s ",$0;next;}1' | sed 's/size"]//g;s/name"]//g;s/"//g;s/\t//g;s/ / | /' | sort -t'|' -k2 | fzf -m --reverse --no-sort --exact)
+    choose=$(echo "$animelist" |  grep -o "name\"\].*\|size\"\].*" | awk '{getline x;print x;}1' | awk 'NR%2 {printf "%s ",$0;next;}1' | sed 's/size"]//g;s/name"]//g;s/"//g;s/\t//g;s/ / | /' | sort -t'|' -k2)
+    if test "$quality" ; then
+        choose1=$(echo "$choose" | grep "$quality")
+        choose2=$(echo "$choose" | grep -v "$quality")
+        choose=$(echo -e "$choose1" "\n" "$choose2" | sed -e 's/^[ \t]*//' | fzf -m --reverse --no-sort --exact)
+    else
+        choose=$(echo "$choose" | fzf -m --reverse --no-sort --exact)
+    fi
 fi
 choose=$(echo "$choose" | sed 's/^.*| //')
 nosquare=$(echo "$choose"  | sed 's/_/ /g;s/\(.*\)- .*/\1/;s/[0-9]//g;s/\[[^]]*\]//g;s/[0-9]//g;s/([^)]*)//g;s/\.[^.]*$//;s/^ *//g;s/ *$//' | sort -nf | uniq -ci | sort -nr | head -n1 |awk '{ print substr($0, index($0,$2)) }' | sed 's/ /%20/g')
@@ -292,6 +311,9 @@ else
         botname=$(echo "$botlist" | grep "^$botnumber" | awk '{print $2}' | head -n1)
         pacname=$(echo "$animelist" | grep -B1 "$anime" | head -n1 | grep -o -E '[0-9]+$')
         echo "xdccget --dont-confirm-offsets -d \"$foldir\" -q \"irc.rizon.net\" \"#nibl\" \"$botname xdcc send #$pacname\"" >> "$tempsh"
+        echo "sleep 1" >> "$tempsh"
     done
     sh "$tempsh"
 fi
+
+
