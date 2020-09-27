@@ -306,7 +306,7 @@ if [[ "$autoplay" == "yes" && "$episode" -gt "0" ]]; then
             pacname=$(echo "$animelist" | grep -B1 "$anime" | head -n1 | grep -o -E '[0-9]+$')
             echo "@echo off" > "$TEMP/$tempobat"
             echo "timeout /t 10 >nul && %*" >> "$TEMP/$tempobat"
-            echo "cmd /C \"start /B xdccget.exe --dont-confirm-offsets -d \"$foldir\" -q \"irc.rizon.net\" \"#nibl\" \"$botname xdcc send #$pacname\" & start /B when_changed.exe \"$foldir\\\\\" %TEMP%\\\$tempobat $player %file% >nul \"" >>"$2"
+            echo "cmd /C \"start /B xdccget.exe --dont-confirm-offsets -d \"$foldir\" -q \"irc.rizon.net\" \"#nibl\" \"$botname xdcc send #$pacname\" & start /B when_changed.exe \"$foldir\\\\\" %TEMP%\\$tempobat $player %file% >nul \"" >>"$2"
         done <"$1"
     else
         foldir=$(echo "$folder$dirname" | sed 's/^ //;s/ $//;s/\/$//')
