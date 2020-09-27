@@ -1,7 +1,7 @@
 # manyame
  ![GitHub All Releases](https://img.shields.io/github/downloads/asakura42/manyame/total) ![GitHub top language](https://img.shields.io/github/languages/top/asakura42/manyame) ![Lines of code](https://img.shields.io/tokei/lines/github/asakura42/manyame)
 
-A dead simple cli tool to search and download anime from [xdcc](https://en.wikipedia.org/wiki/XDCC) servers.
+cli tool to search and download anime from [xdcc](https://en.wikipedia.org/wiki/XDCC) servers.
 Uses [xdccget](https://github.com/Fantastic-Dave/xdccget).
 
 Watch a video demonstration [here](https://streamable.com/0yq0m1). And [here](https://streamable.com/b0tgcj). And [here](https://streamable.com/llpho8)
