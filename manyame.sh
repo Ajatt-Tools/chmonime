@@ -296,7 +296,7 @@ else
 fi
 if [[ "$autoplay" == "yes" && "$episode" -gt "0" ]]; then
     if uname | grep -i -q "Windows\|Mingw\|Cygwin"; then
-        
+        tempobat="$$$$.bat"
         foldir=$(echo "$folder$dirname" | sed 's/^ //;s/ $//;s/\/$//;s/\\$//')
         echo "if not exist \"$foldir\" mkdir \"$foldir\" > nul 2> nul" >>"$2"
         while IFS= read -r line; do
@@ -304,9 +304,9 @@ if [[ "$autoplay" == "yes" && "$episode" -gt "0" ]]; then
             botnumber=$(echo "$animelist" | grep -B2 "$anime" | head -n1 | grep -o -E '[0-9]+$')
             botname=$(echo "$botlist" | grep "^$botnumber" | awk '{print $2}' | head -n1 | sed 's/|/^|/')
             pacname=$(echo "$animelist" | grep -B1 "$anime" | head -n1 | grep -o -E '[0-9]+$')
-            echo "@echo off" > "$TEMP/test.bat"
-            echo "timeout /t 10 >nul && %*" >> "$TEMP/test.bat"
-            echo "cmd /C \"start /B xdccget.exe --dont-confirm-offsets -d \"$foldir\" -q \"irc.rizon.net\" \"#nibl\" \"$botname xdcc send #$pacname\" & start /B when_changed.exe \"$foldir\\\\\" %TEMP%\test.bat $player %file% >nul \"" >>"$2"
+            echo "@echo off" > "$TEMP/$tempobat"
+            echo "timeout /t 10 >nul && %*" >> "$TEMP/$tempobat"
+            echo "cmd /C \"start /B xdccget.exe --dont-confirm-offsets -d \"$foldir\" -q \"irc.rizon.net\" \"#nibl\" \"$botname xdcc send #$pacname\" & start /B when_changed.exe \"$foldir\\\\\" %TEMP%\\\$tempobat $player %file% >nul \"" >>"$2"
         done <"$1"
     else
         foldir=$(echo "$folder$dirname" | sed 's/^ //;s/ $//;s/\/$//')
