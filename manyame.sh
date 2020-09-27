@@ -301,7 +301,7 @@ if [[ "$autoplay" == "yes" && "$episode" -gt "0" ]]; then
         while IFS= read -r line; do
             anime=$(echo "$line" | sed 's/\[/\\\[/g;s/\]/\\\]/g')
             botnumber=$(echo "$animelist" | grep -B2 "$anime" | head -n1 | grep -o -E '[0-9]+$')
-            botname=$(echo "$botlist" | grep "^$botnumber" | awk '{print $2}' | head -n1)
+            botname=$(echo "$botlist" | grep "^$botnumber" | awk '{print $2}' | head -n1 | sed 's/|/^|/')
             pacname=$(echo "$animelist" | grep -B1 "$anime" | head -n1 | grep -o -E '[0-9]+$')
             echo "cmd /C \"start /B xdccget.exe --dont-confirm-offsets -d \"$foldir\" -q \"irc.rizon.net\" \"#nibl\" \"$botname xdcc send #$pacname\" & start /B when_changed.exe \"$foldir\" $player %file%\"" >>"$2"
         done <"$1"
