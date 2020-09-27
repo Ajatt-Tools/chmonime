@@ -45,7 +45,7 @@ https://github.com/Ajatt-Tools/chmonime/releases/tag/2.1.0
 Download from releases or get packages from Linux dependencies and build xdccget by yourself. **Run from bat file, just click start.bat or create shortcut for it**
 
 ## Android
-[RhytmLunatic](https://github.com/RhythmLunatic/) wrote a [simple instruction](https://old.reddit.com/r/animepiracy/comments/iw5tle/manyame_130_many_new_features/g62hlkw/) and Makefile to build the app on Android:
+[RhytmLunatic](https://github.com/RhythmLunatic/) wrote a [simple instruction](https://old.reddit.com/r/animepiracy/comments/iw5tle/manyame_130_many_new_features/g62hlkw/) and Makefile to build the app on Android (edited):
 
 ```
 Install Termux, then run these commands. For anyone else reading this: don't use wget instead of git clone for manyame because it will break the encoding.
@@ -55,10 +55,11 @@ $ git clone https://github.com/RhythmLunatic/xdccget
 $ cd xdccget
 $ make -f Makefile.Android
 $ cd ..
-$ git clone https://github.com/asakura42/manyame
-$ cp "xdccget/xdccget" "manyame/xdccget"
-$ cd manyame
-$ chmod +x manyame.sh
+$ git clone https://github.com/asakura42/chmonime
+$ cp "xdccget/xdccget" "chmonime/xdccget"
+$ cd chmonime
+$ chmod +x chmonime.sh
+$ sh chmonime.sh
 
 Then from now on to run it just cd to manyame and do ./manyame.sh
 ```
