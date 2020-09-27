@@ -305,8 +305,11 @@ if [[ "$autoplay" == "yes" && "$episode" -gt "0" ]]; then
             botname=$(echo "$botlist" | grep "^$botnumber" | awk '{print $2}' | head -n1 | sed 's/|/^|/')
             pacname=$(echo "$animelist" | grep -B1 "$anime" | head -n1 | grep -o -E '[0-9]+$')
             echo "@echo off" > "$TEMP/$tempobat"
-            echo "timeout /t 10 >nul && %*" >> "$TEMP/$tempobat"
-            echo "cmd /C \"start /B xdccget.exe --dont-confirm-offsets -d \"$foldir\" -q \"irc.rizon.net\" \"#nibl\" \"$botname xdcc send #$pacname\" & start /B when_changed.exe \"$foldir\\\\\" %TEMP%\\$tempobat $player %file% >nul \"" >>"$2"
+            echo "timeout /t 15 >nul" >> "$TEMP/$tempobat"
+            echo "cd /d \"$foldir\"" >> "$TEMP/$tempobat"
+            echo "FOR /F \"tokens=*\" %%g IN ('busybox ls -lat | busybox awk \"{print $NF}\" | busybox head -n2 | busybox tail -n1') do (SET VAR=%%g)" >> "$TEMP/$tempobat"
+            echo "$player %%VAR%%" >> "$TEMP/$tempobat"
+            echo "cmd /C \"start /B xdccget.exe --dont-confirm-offsets -d \"$foldir\" -q \"irc.rizon.net\" \"#nibl\" \"$botname xdcc send #$pacname\" & start /B %TEMP%\\$tempobat >nul \"" >>"$2"
         done <"$1"
     else
         foldir=$(echo "$folder$dirname" | sed 's/^ //;s/ $//;s/\/$//')
