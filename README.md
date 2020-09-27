@@ -22,7 +22,7 @@ Features:
 
 `q` is for preferable anime quality: `720p` or `1080p` or `480p` for example. Files with this quality shows first in the list.
 
-`w` is for watching anime right after download started (if you download by episode): `yes` or `no`
+`w` is for watching anime right after download started (if you download by episode): `yes` or `no` **(experimental!)**
 
 `p` is for path to your video player (or just name if player is in `%PATH%`/`$PATH`)
 
