@@ -22,10 +22,13 @@ Features:
 
 `q` is for preferable anime quality: `720p` or `1080p` or `480p` for example. Files with this quality shows first in the list.
 
+`w` is for watching anime right after download started (if you download by episode): `yes` or `no`
+
 example:
 ```
 f D:\Anime\
 q 720p
+w yes
 ```
 
 ## Linux:
