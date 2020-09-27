@@ -308,7 +308,7 @@ if [[ "$autoplay" == "yes" && "$episode" -gt "0" ]]; then
             echo "timeout /t 15 >nul" >> "$TEMP/$tempobat"
             echo "cd /d \"$foldir\"" >> "$TEMP/$tempobat"
             echo "FOR /F \"tokens=*\" %%g IN ('busybox ls -1t ^| busybox head -n1') do (SET VAR=%%g)" >> "$TEMP/$tempobat"
-            echo "$player %%VAR%%" >> "$TEMP/$tempobat"
+            echo "\"$player\" \"%VAR%\"" >> "$TEMP/$tempobat"
             echo "cmd /C \"start /B xdccget.exe --dont-confirm-offsets -d \"$foldir\" -q \"irc.rizon.net\" \"#nibl\" \"$botname xdcc send #$pacname\" & start /B %TEMP%\\$tempobat >nul \"" >>"$2"
         done <"$1"
     else
