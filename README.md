@@ -8,6 +8,7 @@ Watch a video demonstration [here](https://streamable.com/0yq0m1). And [here](ht
 
 Features:
 * batch downloading (press **tab** to check episodes)
+* watch anime while it downloads
 * sort by filesize if download single. sort by releaser and episode when download batch.
 * download anime into different folders by title
 * autoupdate
