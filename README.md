@@ -1,5 +1,5 @@
-# manyame
- ![GitHub All Releases](https://img.shields.io/github/downloads/asakura42/manyame/total) ![GitHub top language](https://img.shields.io/github/languages/top/asakura42/manyame) ![Lines of code](https://img.shields.io/tokei/lines/github/asakura42/manyame)
+# chmonime
+ ![GitHub All Releases](https://img.shields.io/github/downloads/asakura42/chmonime/total) ![GitHub top language](https://img.shields.io/github/languages/top/asakura42/chmonime) ![Lines of code](https://img.shields.io/tokei/lines/github/asakura42/chmonime)
 
 cli tool to search and download anime from [xdcc](https://en.wikipedia.org/wiki/XDCC) servers.
 Uses [xdccget](https://github.com/Fantastic-Dave/xdccget).
@@ -39,7 +39,7 @@ Install the following **dependencies**: awk, bash, **fzf**, grep, head, sed, sor
 Make sure that xdccget is executable and is added to `$PATH`.
 
 ## Windows:
-https://github.com/Ajatt-Tools/manyame/releases/tag/2.0.0
+https://github.com/Ajatt-Tools/chmonime/releases/tag/2.1.0
 
 Download from releases or get packages from Linux dependencies and build xdccget by yourself. **Run from bat file, just click start.bat or create shortcut for it**
 
