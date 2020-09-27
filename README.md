@@ -24,11 +24,14 @@ Features:
 
 `w` is for watching anime right after download started (if you download by episode): `yes` or `no`
 
+`p` is for path to your video player (or just name if player is in `%PATH%`/`$PATH`)
+
 example:
 ```
 f D:\Anime\
 q 720p
 w yes
+p D:\mpv\mpv.exe
 ```
 
 ## Linux:
