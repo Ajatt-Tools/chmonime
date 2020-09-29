@@ -294,36 +294,36 @@ if uname | grep -i -q "Windows\|Mingw\|Cygwin"; then
 else
     true
 fi
-if [[ "$autoplay" == "yes" && "$episode" -gt "0" ]]; then
-    if uname | grep -i -q "Windows\|Mingw\|Cygwin"; then
-        tempobat="$$$$.bat"
-        foldir=$(echo "$folder$dirname" | sed 's/^ //;s/ $//;s/\/$//;s/\\$//')
-        echo "if not exist \"$foldir\" mkdir \"$foldir\" > nul 2> nul" >>"$2"
-        while IFS= read -r line; do
-            anime=$(echo "$line" | sed 's/\[/\\\[/g;s/\]/\\\]/g;s/ *$//;s/^ *//')
-            botnumber=$(echo "$animelist" | grep -B2 "$anime" | head -n1 | grep -o -E '[0-9]+$')
-            botname=$(echo "$botlist" | grep "^$botnumber" | awk '{print $2}' | head -n1 | sed 's/|/^|/')
-            pacname=$(echo "$animelist" | grep -B1 "$anime" | head -n1 | grep -o -E '[0-9]+$')
-            echo "@echo off" > "$TEMP/$tempobat"
-            echo "timeout /t 15 >nul" >> "$TEMP/$tempobat"
-            echo "cd /d \"$foldir\"" >> "$TEMP/$tempobat"
-            echo "FOR /F \"tokens=*\" %%g IN ('busybox ls -1t ^| busybox head -n1') do (SET VAR=%%g)" >> "$TEMP/$tempobat"
-            echo "\"$player\" \"%VAR%\"" >> "$TEMP/$tempobat"
-            echo "cmd /C \"start /B xdccget.exe --dont-confirm-offsets -d \"$foldir\" -q \"irc.rizon.net\" \"#nibl\" \"$botname xdcc send #$pacname\" & start /B %TEMP%\\$tempobat >nul \"" >>"$2"
-        done <"$1"
-    else
-        foldir=$(echo "$folder$dirname" | sed 's/^ //;s/ $//;s/\/$//')
-        echo "mkdir -p \"$foldir\"" >>"$tempsh"
-        echo "$choose" | while IFS= read -r line; do
-            anime=$(echo "$line" | sed 's/\[/\\\[/g;s/\]/\\\]/g;s/ *$//;s/^ *//')
-            botnumber=$(echo "$animelist" | grep -B2 "$anime" | head -n1 | grep -o -E '[0-9]+$')
-            botname=$(echo "$botlist" | grep "^$botnumber" | awk '{print $2}' | head -n1)
-            pacname=$(echo "$animelist" | grep -B1 "$anime" | head -n1 | grep -o -E '[0-9]+$')
-            echo "xdccget --dont-confirm-offsets -d \"$foldir\" -q \"irc.rizon.net\" \"#nibl\" \"$botname xdcc send #$pacname\"" >>"$tempsh"
-        done
-        sh "$tempsh"
-    fi
-else
+#if [[ "$autoplay" == "yes" && "$episode" -gt "0" ]]; then
+#    if uname | grep -i -q "Windows\|Mingw\|Cygwin"; then
+#        tempobat="$$$$.bat"
+#        foldir=$(echo "$folder$dirname" | sed 's/^ //;s/ $//;s/\/$//;s/\\$//')
+#        echo "if not exist \"$foldir\" mkdir \"$foldir\" > nul 2> nul" >>"$2"
+#        while IFS= read -r line; do
+#            anime=$(echo "$line" | sed 's/\[/\\\[/g;s/\]/\\\]/g;s/ *$//;s/^ *//')
+#            botnumber=$(echo "$animelist" | grep -B2 "$anime" | head -n1 | grep -o -E '[0-9]+$')
+#            botname=$(echo "$botlist" | grep "^$botnumber" | awk '{print $2}' | head -n1 | sed 's/|/^|/')
+#            pacname=$(echo "$animelist" | grep -B1 "$anime" | head -n1 | grep -o -E '[0-9]+$')
+#            echo "@echo off" > "$TEMP/$tempobat"
+#            echo "timeout /t 15 >nul" >> "$TEMP/$tempobat"
+#            echo "cd /d \"$foldir\"" >> "$TEMP/$tempobat"
+#            echo "FOR /F \"tokens=*\" %%g IN ('busybox ls -1t ^| busybox head -n1') do (SET VAR=%%g)" >> "$TEMP/$tempobat"
+#            echo "\"$player\" \"%VAR%\"" >> "$TEMP/$tempobat"
+#            echo "cmd /C \"start /B xdccget.exe --dont-confirm-offsets -d \"$foldir\" -q \"irc.rizon.net\" \"#nibl\" \"$botname xdcc send #$pacname\" & start /B %TEMP%\\$tempobat >nul \"" >>"$2"
+#        done <"$1"
+#    else
+#        foldir=$(echo "$folder$dirname" | sed 's/^ //;s/ $//;s/\/$//')
+#        echo "mkdir -p \"$foldir\"" >>"$tempsh"
+#        echo "$choose" | while IFS= read -r line; do
+#            anime=$(echo "$line" | sed 's/\[/\\\[/g;s/\]/\\\]/g;s/ *$//;s/^ *//')
+#            botnumber=$(echo "$animelist" | grep -B2 "$anime" | head -n1 | grep -o -E '[0-9]+$')
+#            botname=$(echo "$botlist" | grep "^$botnumber" | awk '{print $2}' | head -n1)
+#            pacname=$(echo "$animelist" | grep -B1 "$anime" | head -n1 | grep -o -E '[0-9]+$')
+#            echo "xdccget --dont-confirm-offsets -d \"$foldir\" -q \"irc.rizon.net\" \"#nibl\" \"$botname xdcc send #$pacname\"" >>"$tempsh"
+#        done
+#        sh "$tempsh"
+#    fi
+#else
     if uname | grep -i -q "Windows\|Mingw\|Cygwin"; then
         foldir=$(echo "$folder$dirname" | sed 's/^ //;s/ $//;s/\/$//;s/\\$//')
         echo "if not exist \"$foldir\" mkdir \"$foldir\" > nul 2> nul" >>"$2"
@@ -346,7 +346,7 @@ else
         done
         sh "$tempsh"
     fi
-fi
+#fi
 
 
 
