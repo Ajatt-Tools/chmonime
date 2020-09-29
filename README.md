@@ -7,7 +7,7 @@ Uses [xdccget](https://github.com/Fantastic-Dave/xdccget).
 Watch a video demonstration [here](https://streamable.com/0yq0m1). And [here](https://streamable.com/b0tgcj). And [here](https://streamable.com/llpho8)
 
 Features:
-* batch downloading (press **tab** to check episodes)
+* batch downloading (press **tab** to select episodes)
 * watch anime while it downloads
 * sort by filesize if download single. sort by releaser and episode when download batch.
 * download anime into different folders by title
@@ -23,16 +23,15 @@ Features:
 
 `q` is for preferable anime quality: `720p` or `1080p` or `480p` for example. Files with this quality shows first in the list.
 
-`w` is for watching anime right after download started (if you download by episode): `yes` or `no` **(experimental!)**
+~~`w` is for watching anime right after download started (if you download by episode): `yes` or `no` **(experimental!)**~~ Work in progress!
 
-`p` is for path to your video player (or just name if player is in `%PATH%`/`$PATH`)
+~~`p` is for path to your video player (or just name if player is in `%PATH%`/`$PATH`)
 
 example:
 ```
 f D:\Anime\
 q 720p
-w yes
-p D:\mpv\mpv.exe
+
 ```
 
 ## Linux:
