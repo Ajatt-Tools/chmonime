@@ -25,7 +25,7 @@ Features:
 
 ~~`w` is for watching anime right after download started (if you download by episode): `yes` or `no` **(experimental!)**~~ Work in progress!
 
-~~`p` is for path to your video player (or just name if player is in `%PATH%`/`$PATH`)
+~~`p` is for path to your video player (or just name if player is in `%PATH%`/`$PATH`)~~
 
 example:
 ```
