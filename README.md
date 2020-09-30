@@ -1,5 +1,5 @@
 # chmonime
- ![GitHub All Releases](https://img.shields.io/github/downloads/asakura42/chmonime/total) ![GitHub top language](https://img.shields.io/github/languages/top/asakura42/chmonime) ![Lines of code](https://img.shields.io/tokei/lines/github/asakura42/chmonime)
+ ![GitHub All Releases](https://img.shields.io/github/downloads/Ajatt-Tools/chmonime/total) ![GitHub top language](https://img.shields.io/github/languages/top/Ajatt-Tools/chmonime) ![Lines of code](https://img.shields.io/tokei/lines/github/Ajatt-Tools/chmonime)
 
 cli tool to search and download anime from [xdcc](https://en.wikipedia.org/wiki/XDCC) servers.
 Uses [xdccget](https://github.com/Fantastic-Dave/xdccget).
