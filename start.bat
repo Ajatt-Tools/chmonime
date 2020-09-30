@@ -2,7 +2,7 @@
 setlocal EnableExtensions
 mode con: cols=100 lines=30
 if exist "chmonime.sh" goto :check
-Executables\busybox wget -q https://raw.githubusercontent.com/`ls/chmonime/master/chmonime.sh -O chmonime.sh
+Executables\busybox wget -q https://raw.githubusercontent.com/Ajatt-Tools/chmonime/master/chmonime.sh -O chmonime.sh
 :check
 for /f "tokens=* USEBACKQ" %%a in (
 `for %%I in ^(chmonime.sh^) do @echo %%~zI`
