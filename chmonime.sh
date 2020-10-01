@@ -9,7 +9,7 @@ config="config.conf"
 if test -f "$config"; then
     echo -n ""
 else
-    echo "chmonime config setup"
+    echo "manyame config setup"
     echo "Enter your preferable folder for download anime."
     echo "e.g. C:\Users\asakura\Downloads\ or /home/asakura/Anime/"
     echo "Don't forget slash at the end!"
