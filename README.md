@@ -1,5 +1,5 @@
-# chmonime
- ![GitHub All Releases](https://img.shields.io/github/downloads/Ajatt-Tools/chmonime/total) ![GitHub top language](https://img.shields.io/github/languages/top/Ajatt-Tools/chmonime) ![Lines of code](https://img.shields.io/tokei/lines/github/Ajatt-Tools/chmonime)
+# manyame
+ ![GitHub All Releases](https://img.shields.io/github/downloads/Ajatt-Tools/manyame/total) ![GitHub top language](https://img.shields.io/github/languages/top/Ajatt-Tools/manyame) ![Lines of code](https://img.shields.io/tokei/lines/github/Ajatt-Tools/manyame)
 
 cli tool to search and download anime from [xdcc](https://en.wikipedia.org/wiki/XDCC) servers.
 Uses [xdccget](https://github.com/Fantastic-Dave/xdccget).
@@ -39,7 +39,7 @@ Install the following **dependencies**: awk, bash, **fzf**, grep, head, sed, sor
 Make sure that xdccget is executable and is added to `$PATH`.
 
 ## Windows:
-https://github.com/Ajatt-Tools/chmonime/releases/tag/2.1.0
+https://github.com/Ajatt-Tools/manyame/releases/tag/2.1.0
 
 Download from releases or get packages from Linux dependencies and build xdccget by yourself. **Run from bat file, just click start.bat or create shortcut for it**
 
@@ -54,11 +54,11 @@ $ git clone https://github.com/RhythmLunatic/xdccget
 $ cd xdccget
 $ make -f Makefile.Android
 $ cd ..
-$ git clone https://github.com/asakura42/chmonime
-$ cp "xdccget/xdccget" "chmonime/xdccget"
-$ cd chmonime
-$ chmod +x chmonime.sh
-$ sh chmonime.sh
+$ git clone https://github.com/asakura42/manyame
+$ cp "xdccget/xdccget" "manyame/xdccget"
+$ cd manyame
+$ chmod +x manyame.sh
+$ sh manyame.sh
 
 Then from now on to run it just cd to manyame and do ./manyame.sh
 ```
