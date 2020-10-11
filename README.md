@@ -1,5 +1,5 @@
 # manyame
-![GitHub All Releases](https://img.shields.io/badge/support-patreon-orange) ![GitHub All Releases](https://img.shields.io/github/downloads/Ajatt-Tools/manyame/total) ![GitHub top language](https://img.shields.io/github/languages/top/Ajatt-Tools/manyame) ![Lines of code](https://img.shields.io/tokei/lines/github/Ajatt-Tools/manyame)
+[![Patreon](https://img.shields.io/badge/support-patreon-orange)](https://www.patreon.com/ajatt_tools)  ![GitHub All Releases](https://img.shields.io/github/downloads/Ajatt-Tools/manyame/total) ![GitHub top language](https://img.shields.io/github/languages/top/Ajatt-Tools/manyame) ![Lines of code](https://img.shields.io/tokei/lines/github/Ajatt-Tools/manyame)
 
 
 
