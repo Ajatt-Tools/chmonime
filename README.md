@@ -1,5 +1,7 @@
 # manyame
- ![GitHub All Releases](https://img.shields.io/github/downloads/Ajatt-Tools/manyame/total) ![GitHub top language](https://img.shields.io/github/languages/top/Ajatt-Tools/manyame) ![Lines of code](https://img.shields.io/tokei/lines/github/Ajatt-Tools/manyame)
+![GitHub All Releases](https://img.shields.io/badge/support-patreon-orange) ![GitHub All Releases](https://img.shields.io/github/downloads/Ajatt-Tools/manyame/total) ![GitHub top language](https://img.shields.io/github/languages/top/Ajatt-Tools/manyame) ![Lines of code](https://img.shields.io/tokei/lines/github/Ajatt-Tools/manyame)
+
+
 
 cli tool to search and download anime from [xdcc](https://en.wikipedia.org/wiki/XDCC) servers.
 Uses [xdccget](https://github.com/Fantastic-Dave/xdccget).
