@@ -71,18 +71,6 @@ if [[ "$api" == "kitsu" ]] ; then
 else
     dirname=$(curl -s "https://api.jikan.moe/v3/search/anime?q=$nosquare&page=1&limit=1" | jq -r .results[].title | sed 's/\// /g;s/</ /g;s/>/ /g;s/:/ - /g;s/"/ /g;s/\\/ /g;s/|/ /g;s/?/ /g;s/*/ /g;s/  */ /g')
 fi
-#if [[ "$autoplay" == "yes" && "$episode" -gt "0" ]]; then
-#        foldir=$(echo "$folder$dirname" | sed 's/^ //;s/ $//;s/\/$//')
-#        echo "mkdir -p \"$foldir\"" >>"$tempsh"
-#        echo "$choose" | while IFS= read -r line; do
-#            anime=$(echo "$line" | sed 's/\[/\\\[/g;s/\]/\\\]/g;s/ *$//;s/^ *//')
-#            botnumber=$(echo "$animelist" | grep -B2 "$anime" | head -n1 | grep -o -E '[0-9]+$')
-#            botname=$(echo "$botlist" | grep "^$botnumber" | awk '{print $2}' | head -n1)
-#            pacname=$(echo "$animelist" | grep -B1 "$anime" | head -n1 | grep -o -E '[0-9]+$')
-#            echo "xdccget --dont-confirm-offsets -d \"$foldir\" -q \"irc.rizon.net\" \"#nibl\" \"$botname xdcc send #$pacname\"" >>"$tempsh"
-#        done
-#        sh "$tempsh"
-#else
 foldir=$(echo "$folder$dirname" | sed 's/^ //;s/ $//;s/\/$//')
 echo "mkdir -p \"$foldir\"" >>"$tempsh"
 echo "$choose" | while IFS= read -r line; do
