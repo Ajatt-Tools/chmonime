@@ -2,7 +2,7 @@
 setlocal EnableExtensions
 mode con: cols=100 lines=30
 if exist "manyame.sh" goto :check
-Executables\busybox wget -q https://raw.githubusercontent.com/Ajatt-Tools/manyame/master/manyame.sh -O manyame.sh
+Executables\busybox wget -q https://raw.githubusercontent.com/asakura42/manyame/master/manyame.sh -O manyame.sh
 :check
 for /f "tokens=* USEBACKQ" %%a in (
 `for %%I in ^(manyame.sh^) do @echo %%~zI`
@@ -10,12 +10,12 @@ for /f "tokens=* USEBACKQ" %%a in (
 set local=%%a
 )
 FOR /F "tokens=* USEBACKQ" %%F IN (
-`Executables\busybox wget -q --spider --server-response https://raw.githubusercontent.com/Ajatt-Tools/manyame/master/manyame.sh -O - 2^>^&1 ^| Executables\busybox sed -ne "/Content-Length/{s/.*: //;p}"`) DO (
+`Executables\busybox wget -q --spider --server-response https://raw.githubusercontent.com/asakura42/manyame/master/manyame.sh -O - 2^>^&1 ^| Executables\busybox sed -ne "/Content-Length/{s/.*: //;p}"`) DO (
 SET remote=%%F
 )
 IF %remote% EQU %local% (GOTO uniqLoop) ELSE (GOTO dl)
 :dl
-Executables\busybox wget -q https://raw.githubusercontent.com/Ajatt-Tools/manyame/master/manyame.sh -O manyame.sh
+Executables\busybox wget -q https://raw.githubusercontent.com/asakura42/manyame/master/manyame.sh -O manyame.sh
 GOTO uniqLoop
 :uniqLoop
 set "uniqueFileName=%tmp%\rand%RANDOM%.tmp"
