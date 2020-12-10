@@ -41,7 +41,7 @@ Install the following **dependencies**: awk, bash, **fzf**, grep, head, sed, sor
 Make sure that xdccget is executable and is added to `$PATH`.
 
 ## Windows:
-https://github.com/Ajatt-Tools/manyame/releases/tag/2.1.0
+https://github.com/asakura42/manyame/releases/tag/2.1.0
 
 Download from releases or get packages from Linux dependencies and build xdccget by yourself. **Run from bat file, just click start.bat or create shortcut for it**
 
